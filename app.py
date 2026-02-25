@@ -173,4 +173,3 @@ if uploaded_file:
 # --------------------------------------------------
 st.caption("ClauseCraft AI • Semantic NLP • Transformer-based Summarization")
 
-# trigger ci
