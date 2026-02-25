@@ -1,0 +1,6 @@
+streamlit
+pdfplumber
+spacy
+transformers
+torch
+nltk
