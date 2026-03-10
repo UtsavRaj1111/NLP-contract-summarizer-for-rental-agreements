@@ -1,11 +1,15 @@
 import streamlit as st
 import pandas as pd
+import altair as alt
 
-from utils.text_extraction import extract_text_from_pdf
-from utils.preprocessing import preprocess_text
+from utils.text_extraction import extract_text
 from utils.clause_extraction import extract_clauses
 from utils.summarizer import generate_summary
 from utils.translator import translate_text
+from utils.info_extractor import extract_agreement_info
+from utils.risk_detector import detect_clause_risk
+from utils.suggestions import clause_suggestions
+from utils.report_generator import generate_report
 
 # --------------------------------------------------
 # PAGE CONFIG
@@ -17,65 +21,61 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# SIDEBAR ABOUT SECTION
+# SIDEBAR
 # --------------------------------------------------
 with st.sidebar:
     st.title("⚖️ ClauseCraft AI")
 
-    st.markdown("### 📖 About")
+    st.markdown("### About")
     st.write(
         """
-        ClauseCraft AI is an NLP-powered legal assistant that simplifies 
-        rental agreements using AI. It generates easy-to-read summaries, 
-        detects important clauses, and provides confidence-based insights.
+        ClauseCraft AI is an NLP-powered legal assistant that analyzes
+        rental agreements. It summarizes contracts, detects clauses,
+        identifies risks, and extracts key information automatically.
         """
     )
 
-    st.markdown("### ✨ Features")
+    st.markdown("### Features")
     st.markdown("""
-    - AI contract summarization  
-    - Semantic clause detection  
-    - Multilingual summaries  
-    - Confidence scoring  
-    - Downloadable summaries  
+    - Contract summarization
+    - Clause detection
+    - Clause evidence highlighting
+    - Risk detection
+    - Agreement information extraction
+    - Smart clause suggestions
+    - Clause confidence visualization
     """)
 
-    st.markdown("### 🚀 How to Use")
+    st.markdown("### Supported Files")
     st.markdown("""
-    1. Upload rental agreement PDF  
-    2. Choose summary language  
-    3. View AI summary  
-    4. Explore clause dashboard  
-    """)
-
-    st.markdown("### 🛠 Tech Stack")
-    st.markdown("""
-    - Transformers (BART)  
-    - Sentence Transformers  
-    - Streamlit  
-    - Python NLP Stack  
+    - PDF
+    - DOCX
+    - JPG / PNG
     """)
 
 # --------------------------------------------------
-# MAIN HEADER
+# HEADER
 # --------------------------------------------------
 st.title("⚖️ ClauseCraft AI")
-st.caption("AI-powered rental agreement intelligence")
+st.caption("AI-powered Rental Agreement Analyzer")
 
 st.divider()
 
 # --------------------------------------------------
-# FILE + LANGUAGE INPUT
+# FILE INPUT
 # --------------------------------------------------
-col1, col2 = st.columns([2, 1])
+col1, col2 = st.columns([2,1])
 
 with col1:
-    uploaded_file = st.file_uploader("Upload Rental Agreement", type=["pdf"])
+    uploaded_file = st.file_uploader(
+        "Upload Rental Agreement",
+        type=["pdf","docx","jpg","png"]
+    )
 
 with col2:
     language = st.selectbox(
         "Summary Language",
-        ["English", "Hindi", "Tamil", "Telugu", "Marathi"]
+        ["English","Hindi","Tamil","Telugu","Marathi"]
     )
 
 st.divider()
@@ -84,13 +84,20 @@ st.divider()
 # PROCESS DOCUMENT
 # --------------------------------------------------
 if uploaded_file:
-    with st.spinner("Analyzing agreement..."):
 
-        raw_text = extract_text_from_pdf(uploaded_file)
-        clean_text = preprocess_text(raw_text)
+    with st.spinner("Analyzing document..."):
+
+        raw_text = extract_text(uploaded_file, uploaded_file.name)
 
         summary = generate_summary(raw_text)
+
         clauses = extract_clauses(raw_text)
+
+        info = extract_agreement_info(raw_text)
+
+        risks = detect_clause_risk(clauses)
+
+        suggestions = clause_suggestions(clauses)
 
         final_summary = summary
         if language != "English":
@@ -98,9 +105,9 @@ if uploaded_file:
 
     st.success("Document processed successfully!")
 
-    # ==================================================
-    # SUMMARY SECTION
-    # ==================================================
+# --------------------------------------------------
+# SUMMARY
+# --------------------------------------------------
     st.subheader("📌 Contract Summary")
     st.success(final_summary)
 
@@ -110,66 +117,123 @@ if uploaded_file:
         file_name="ClauseCraft_Summary.txt"
     )
 
-    st.divider()
+# --------------------------------------------------
+# SUMMARY COMPRESSION SCORE
+# --------------------------------------------------
+    original_words = len(raw_text.split())
+    summary_words = len(final_summary.split())
 
-    # ==================================================
-    # CLAUSE DASHBOARD
-    # ==================================================
+    compression_ratio = round((1 - summary_words/original_words) * 100,2)
+
+    st.metric("Summary Compression", f"{compression_ratio}%")
+
+# --------------------------------------------------
+# AGREEMENT INFORMATION
+# --------------------------------------------------
+    st.subheader("📄 Extracted Agreement Information")
+
+    if info:
+        info_df = pd.DataFrame(info.items(), columns=["Field","Value"])
+        st.table(info_df)
+    else:
+        st.info("No structured information detected")
+
+# --------------------------------------------------
+# CLAUSE DASHBOARD
+# --------------------------------------------------
     st.subheader("📊 Clause Intelligence Dashboard")
 
     table_data = []
 
     for clause, status in clauses.items():
 
-        # Extract confidence score
         if "(" in status:
-            confidence = float(status.split("(")[-1].replace(")", ""))
+            confidence = float(status.split("(")[1].replace(")",""))
         else:
-            confidence = 0.0
+            confidence = 0
 
-        present = "Present" in status
+        state = "Present" if "Present" in status else "Missing"
 
         table_data.append({
             "Clause": clause,
-            "Status": "✅ Present" if present else "❌ Missing",
+            "Status": state,
+            "Risk": risks.get(clause,"Unknown"),
             "Confidence": confidence
         })
 
     df = pd.DataFrame(table_data)
 
-    # --------------------------------------------------
-    # SORTING OPTION
-    # --------------------------------------------------
-    sort_option = st.selectbox(
-        "Sort Clauses By",
-        ["Confidence (High to Low)", "Confidence (Low to High)", "Alphabetical"]
-    )
-
-    if sort_option == "Confidence (High to Low)":
-        df = df.sort_values(by="Confidence", ascending=False)
-    elif sort_option == "Confidence (Low to High)":
-        df = df.sort_values(by="Confidence", ascending=True)
-    else:
-        df = df.sort_values(by="Clause")
-
-    # --------------------------------------------------
-    # TABLE DISPLAY
-    # --------------------------------------------------
     st.dataframe(df, use_container_width=True)
 
-    # ==================================================
-    # CONFIDENCE VISUALIZATION
-    # ==================================================
-    st.subheader("📈 Confidence Visualization")
 
-    for _, row in df.iterrows():
-        st.write(f"**{row['Clause']}**")
-        st.progress(min(row["Confidence"], 1.0))
+# --------------------------------------------------
+# CLAUSE SUGGESTIONS
+# --------------------------------------------------
+    st.subheader("💡 Smart Clause Suggestions")
 
-    st.divider()
+    if suggestions:
+        for clause, suggestion in suggestions.items():
+            st.warning(suggestion)
+    else:
+        st.success("All important clauses appear to be present.")
+
+# --------------------------------------------------
+# AGREEMENT QUALITY SCORE
+# --------------------------------------------------
+    total = len(clauses)
+    present = sum("Present" in v for v in clauses.values())
+
+    quality_score = round((present/total)*100,2)
+
+    st.metric("Agreement Quality Score", f"{quality_score}/100")
+
+# --------------------------------------------------
+# CLAUSE CONFIDENCE GRAPH
+# --------------------------------------------------
+    st.subheader("📈 Clause Confidence Visualization")
+
+    chart_df = df.copy()
+
+    chart = alt.Chart(chart_df).mark_bar().encode(
+        x=alt.X("Clause:N", sort='-y', title="Clause Type"),
+        y=alt.Y("Confidence:Q", scale=alt.Scale(domain=[0,1]), title="Confidence Score"),
+        color=alt.Color(
+            "Status:N",
+            scale=alt.Scale(
+                domain=["Present","Missing"],
+                range=["green","red"]
+            ),
+            legend=alt.Legend(title="Clause Status")
+        ),
+        tooltip=["Clause","Status","Confidence"]
+    ).properties(
+        height=400
+    )
+
+    st.altair_chart(chart, use_container_width=True)
+
+# --------------------------------------------------
+# EXPORT REPORT
+# --------------------------------------------------
+    st.subheader("📄 Export AI Report")
+
+    report_file = generate_report(
+    final_summary,
+    clauses,
+    info,
+    risks,
+    quality_score
+)
+
+st.download_button(
+    label="Download ClauseCraft AI Report",
+    data=report_file,
+    file_name="ClauseCraft_Report.pdf",
+    mime="application/pdf"
+)
 
 # --------------------------------------------------
 # FOOTER
 # --------------------------------------------------
-st.caption("ClauseCraft AI • Semantic NLP • Transformer-based Summarization")
-
+st.divider()
+st.caption("ClauseCraft AI • NLP Legal Intelligence System")
