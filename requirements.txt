@@ -6,3 +6,5 @@ torch
 nltk
 altair
 python-docx
+pytesseract
+Pillow
