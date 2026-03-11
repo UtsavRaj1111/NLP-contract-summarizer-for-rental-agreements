@@ -4,3 +4,9 @@ spacy
 transformers
 torch
 nltk
+altair
+re
+shap
+docs
+pytesseract
+Image
