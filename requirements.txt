@@ -1,11 +1,11 @@
 streamlit
 pdfplumber
 spacy
-transformers
-torch
+transformers==4.41.2
+torch==2.2.2
+sentence-transformers
 nltk
 altair
 python-docx
 pytesseract
 Pillow
-sentence-transformers
