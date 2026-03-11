@@ -166,16 +166,7 @@ if uploaded_file:
     st.dataframe(df, use_container_width=True)
 
 
-# --------------------------------------------------
-# CLAUSE SUGGESTIONS
-# --------------------------------------------------
-    st.subheader("💡 Smart Clause Suggestions")
 
-    if suggestions:
-        for clause, suggestion in suggestions.items():
-            st.warning(suggestion)
-    else:
-        st.success("All important clauses appear to be present.")
 
 # --------------------------------------------------
 # AGREEMENT QUALITY SCORE
@@ -215,22 +206,24 @@ if uploaded_file:
 # --------------------------------------------------
 # EXPORT REPORT
 # --------------------------------------------------
-    st.subheader("📄 Export AI Report")
+if uploaded_file:
+
+    st.subheader("📄 Download Full AI Report")
 
     report_file = generate_report(
-    final_summary,
-    clauses,
-    info,
-    risks,
-    quality_score
-)
+        final_summary,
+        clauses,
+        info,
+        risks,
+        quality_score
+    )
 
-st.download_button(
-    label="Download ClauseCraft AI Report",
-    data=report_file,
-    file_name="ClauseCraft_Report.pdf",
-    mime="application/pdf"
-)
+    st.download_button(
+        label="Download ClauseCraft AI Report",
+        data=report_file,
+        file_name="ClauseCraft_Report.pdf",
+        mime="application/pdf"
+    )
 
 # --------------------------------------------------
 # FOOTER

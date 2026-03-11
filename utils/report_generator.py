@@ -1,5 +1,7 @@
 from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
 from io import BytesIO
 
 
@@ -7,56 +9,60 @@ def generate_report(summary, clauses, info, risks, quality_score):
 
     buffer = BytesIO()
 
-    c = canvas.Canvas(buffer, pagesize=letter)
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
 
-    y = 750
+    styles = getSampleStyleSheet()
 
-    c.setFont("Helvetica-Bold", 16)
-    c.drawString(200, y, "ClauseCraft AI Report")
+    elements = []
 
-    y -= 40
+    # Title
+    elements.append(Paragraph("ClauseCraft AI – Rental Agreement Analysis Report", styles['Title']))
+    elements.append(Spacer(1,20))
 
-    c.setFont("Helvetica", 12)
+    # Summary Section
+    elements.append(Paragraph("Contract Summary", styles['Heading2']))
+    elements.append(Spacer(1,10))
+    elements.append(Paragraph(summary, styles['BodyText']))
+    elements.append(Spacer(1,20))
 
-    # SUMMARY
-    c.drawString(50, y, "Contract Summary:")
-    y -= 20
+    # Agreement Information
+    elements.append(Paragraph("Extracted Agreement Information", styles['Heading2']))
+    elements.append(Spacer(1,10))
 
-    for line in summary.split("."):
-        c.drawString(50, y, line.strip())
-        y -= 15
+    info_table = [["Field", "Value"]]
 
-        if y < 100:
-            c.showPage()
-            y = 750
+    for k,v in info.items():
+        info_table.append([k,v])
 
-    y -= 20
+    table = Table(info_table, colWidths=[2.5*inch,3.5*inch])
+    elements.append(table)
+    elements.append(Spacer(1,20))
 
-    # AGREEMENT INFO
-    c.drawString(50, y, "Agreement Information")
-    y -= 20
+    # Clause Analysis
+    elements.append(Paragraph("Clause Analysis", styles['Heading2']))
+    elements.append(Spacer(1,10))
 
-    for k, v in info.items():
-        c.drawString(50, y, f"{k}: {v}")
-        y -= 15
+    clause_table = [["Clause","Status","Risk"]]
 
-    y -= 20
+    for clause,status in clauses.items():
 
-    # CLAUSES
-    c.drawString(50, y, "Clause Analysis")
-    y -= 20
+        state = "Present" if "Present" in status else "Missing"
 
-    for clause, status in clauses.items():
-        risk = risks.get(clause, "Unknown")
-        c.drawString(50, y, f"{clause} → {status} | Risk: {risk}")
-        y -= 15
+        clause_table.append([
+            clause,
+            state,
+            risks.get(clause,"Unknown")
+        ])
 
-    y -= 20
+    table = Table(clause_table, colWidths=[2*inch,2*inch,2*inch])
+    elements.append(table)
 
-    # QUALITY SCORE
-    c.drawString(50, y, f"Agreement Quality Score: {quality_score}/100")
+    elements.append(Spacer(1,20))
 
-    c.save()
+    # Quality Score
+    elements.append(Paragraph(f"Agreement Quality Score: {quality_score}/100", styles['Heading2']))
+
+    doc.build(elements)
 
     buffer.seek(0)
 
