@@ -8,3 +8,4 @@ altair
 python-docx
 pytesseract
 Pillow
+sentence-transformers
