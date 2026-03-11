@@ -3,7 +3,7 @@ pdfplumber
 spacy
 transformers==4.41.2
 sentence-transformers==2.7.0
-torch==2.2.2
+torch==2.10.0
 nltk
 altair
 python-docx
