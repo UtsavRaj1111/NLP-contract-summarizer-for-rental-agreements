@@ -8,7 +8,6 @@ from utils.summarizer import generate_summary
 from utils.translator import translate_text
 from utils.info_extractor import extract_agreement_info
 from utils.risk_detector import detect_clause_risk
-from utils.suggestions import clause_suggestions
 from utils.report_generator import generate_report
 
 # --------------------------------------------------
@@ -97,7 +96,7 @@ if uploaded_file:
 
         risks = detect_clause_risk(clauses)
 
-        suggestions = clause_suggestions(clauses)
+        
 
         final_summary = summary
         if language != "English":
@@ -120,10 +119,17 @@ if uploaded_file:
 # --------------------------------------------------
 # SUMMARY COMPRESSION SCORE
 # --------------------------------------------------
+if uploaded_file:
+
+    raw_text = extract_text(uploaded_file, uploaded_file.name)
+
     original_words = len(raw_text.split())
     summary_words = len(final_summary.split())
 
-    compression_ratio = round((1 - summary_words/original_words) * 100,2)
+    if original_words > 0:
+        compression_ratio = round((1 - summary_words/original_words) * 100,2)
+    else:
+        compression_ratio = 0
 
     st.metric("Summary Compression", f"{compression_ratio}%")
 
@@ -135,8 +141,7 @@ if uploaded_file:
     if info:
         info_df = pd.DataFrame(info.items(), columns=["Field","Value"])
         st.table(info_df)
-    else:
-        st.info("No structured information detected")
+    
 
 # --------------------------------------------------
 # CLAUSE DASHBOARD

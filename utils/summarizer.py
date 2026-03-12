@@ -1,28 +1,27 @@
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-import streamlit as st
+from transformers import pipeline
 
-@st.cache_resource
-def load_model():
-    model_name = "sshleifer/distilbart-cnn-12-6"
-
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
-
-    return tokenizer, model
-
+summarizer = pipeline(
+    "summarization",
+    model="facebook/bart-large-cnn"
+)
 
 def generate_summary(text):
-    tokenizer, model = load_model()
 
-    inputs = tokenizer(text, return_tensors="pt", max_length=1024, truncation=True)
+    if not text or len(text.strip()) == 0:
+        return "No text found in document."
 
-    summary_ids = model.generate(
-        inputs["input_ids"],
-        max_length=120,
-        min_length=30,
-        length_penalty=2.0,
-        num_beams=4,
-        early_stopping=True,
-    )
+    # Limit text size for model
+    text = text[:3000]
 
-    return tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+    try:
+        summary = summarizer(
+            text,
+            max_length=150,
+            min_length=40,
+            do_sample=False
+        )
+
+        return summary[0]["summary_text"]
+
+    except Exception:
+        return "Unable to generate summary for this document."

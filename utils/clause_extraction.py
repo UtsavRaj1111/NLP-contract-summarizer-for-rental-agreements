@@ -1,10 +1,10 @@
 from sentence_transformers import SentenceTransformer, util
 import re
 
-# Load semantic model
+# Load model once
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# Clause descriptions
+# Clause semantic descriptions
 CLAUSE_REFERENCES = {
     "Rent": "monthly payment amount paid by tenant to landlord",
     "Security Deposit": "refundable deposit amount held by landlord",
@@ -16,23 +16,60 @@ CLAUSE_REFERENCES = {
 }
 
 
+# --------------------------------------------------
+# SAFE SENTENCE SPLITTING
+# --------------------------------------------------
 def split_sentences(text):
+
+    if not text:
+        return []
+
+    # split by punctuation or newline
     sentences = re.split(r'(?<=[.!?])\s+|\n', text)
-    sentences = [s.strip() for s in sentences if len(s.strip()) > 20]
+
+    # remove empty
+    sentences = [s.strip() for s in sentences if s.strip()]
+
+    # if extraction failed, fallback
+    if len(sentences) == 0:
+        sentences = [text[:500]]
+
+    # limit for performance
+    sentences = sentences[:200]
+
     return sentences
 
 
+# --------------------------------------------------
+# CLAUSE DETECTION
+# --------------------------------------------------
 def extract_clauses(text):
 
     sentences = split_sentences(text)
 
-    sentence_embeddings = model.encode(sentences, convert_to_tensor=True)
+    # Safety check
+    if not sentences:
+        return {clause: "Missing (0.0)" for clause in CLAUSE_REFERENCES}
+
+    try:
+
+        sentence_embeddings = model.encode(
+            sentences,
+            convert_to_tensor=True,
+            batch_size=16
+        )
+
+    except Exception:
+        return {clause: "Missing (0.0)" for clause in CLAUSE_REFERENCES}
 
     results = {}
 
     for clause, meaning in CLAUSE_REFERENCES.items():
 
-        clause_embedding = model.encode(meaning, convert_to_tensor=True)
+        clause_embedding = model.encode(
+            meaning,
+            convert_to_tensor=True
+        )
 
         scores = util.cos_sim(clause_embedding, sentence_embeddings)[0]
 
@@ -44,23 +81,3 @@ def extract_clauses(text):
             results[clause] = f"Missing ({round(max_score,2)})"
 
     return results
-
-
-def find_clause_evidence(text, clause_name):
-
-    sentences = split_sentences(text)
-
-    sentence_embeddings = model.encode(sentences, convert_to_tensor=True)
-
-    clause_description = CLAUSE_REFERENCES[clause_name]
-    clause_embedding = model.encode(clause_description, convert_to_tensor=True)
-
-    scores = util.cos_sim(clause_embedding, sentence_embeddings)[0]
-
-    best_index = scores.argmax().item()
-    best_score = scores[best_index].item()
-
-    if best_score < 0.40:
-        return "No strong clause evidence detected"
-
-    return sentences[best_index].strip()
