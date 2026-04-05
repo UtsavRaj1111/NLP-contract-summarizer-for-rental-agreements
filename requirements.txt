@@ -8,7 +8,9 @@ reportlab==4.2.2
 spacy==3.7.5
 transformers==4.41.2
 sentence-transformers==2.7.0
-torch==2.3.1
+
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.3.1+cpu
 
 nltk==3.8.1
 
