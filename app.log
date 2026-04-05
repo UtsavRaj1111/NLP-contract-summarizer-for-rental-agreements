@@ -1,0 +1,293 @@
+2026-04-05 16:05:04,176 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 16:05:04,190 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 16:05:04,194 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 16:06:53,845 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 16:06:53,845 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 16:06:53,850 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 16:06:59,626 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-04-05 16:06:59,626 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 16:07:03,136 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:07:03] "GET / HTTP/1.1" 200 -
+2026-04-05 16:07:03,657 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:07:03] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2026-04-05 16:07:03,660 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:07:03] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2026-04-05 16:07:09,483 - __main__ - INFO - Processing started for: rental_docuemnt.pdf
+2026-04-05 16:07:09,508 - utils.text_extraction - INFO - PDF Opened: uploads\rental_docuemnt.pdf, Pages: 1
+2026-04-05 16:07:09,525 - utils.text_extraction - WARNING - Empty text on page 1, triggering OCR...
+2026-04-05 16:07:26,450 - __main__ - INFO - Classified as: General Legal Document (Conf: 0.27010905742645264)
+2026-04-05 16:07:26,451 - utils.model_loader - INFO - Initializing Summarization Pipeline (facebook/bart-large-cnn)...
+2026-04-05 16:07:55,035 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:07:55] "POST / HTTP/1.1" 200 -
+2026-04-05 16:07:55,143 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:07:55] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2026-04-05 16:07:55,148 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:07:55] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2026-04-05 16:08:33,750 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:08:33] "GET / HTTP/1.1" 200 -
+2026-04-05 16:08:33,856 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:08:33] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2026-04-05 16:08:33,861 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:08:33] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2026-04-05 16:08:41,198 - __main__ - INFO - Processing started for: legal_document.pdf
+2026-04-05 16:08:41,222 - utils.text_extraction - INFO - PDF Opened: uploads\legal_document.pdf, Pages: 1
+2026-04-05 16:08:41,237 - utils.text_extraction - WARNING - Empty text on page 1, triggering OCR...
+2026-04-05 16:08:55,917 - __main__ - INFO - Classified as: Rental Agreement (Conf: 0.54)
+2026-04-05 16:10:40,199 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:10:40] "POST / HTTP/1.1" 200 -
+2026-04-05 16:10:40,560 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:10:40] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2026-04-05 16:10:40,736 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:10:40] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2026-04-05 16:36:46,164 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 16:36:46,172 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 16:36:46,172 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 16:36:51,478 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-04-05 16:36:51,481 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 16:41:23,756 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 16:41:23,756 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 16:41:23,756 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 16:41:27,158 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:41:27] "GET / HTTP/1.1" 200 -
+2026-04-05 16:41:27,214 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:41:27] "GET /static/css/styles.css HTTP/1.1" 200 -
+2026-04-05 16:41:27,229 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:41:27] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2026-04-05 16:41:28,771 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-04-05 16:41:28,773 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 16:43:17,023 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:43:17] "GET / HTTP/1.1" 200 -
+2026-04-05 16:43:17,298 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:43:17] "GET /static/css/styles.css HTTP/1.1" 200 -
+2026-04-05 16:43:17,376 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:43:17] "GET /static/js/main.js HTTP/1.1" 200 -
+2026-04-05 16:45:23,123 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 16:45:23,140 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 16:45:23,143 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 16:45:30,819 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-04-05 16:45:30,821 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 16:45:37,125 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:45:37] "GET / HTTP/1.1" 200 -
+2026-04-05 16:45:37,312 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:45:37] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2026-04-05 16:45:37,318 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:45:37] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2026-04-05 16:55:57,072 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 16:55:57,110 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 16:55:57,115 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 16:56:14,745 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 16:56:14,760 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 16:56:48,590 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:56:48] "GET / HTTP/1.1" 200 -
+2026-04-05 16:56:48,943 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:56:48] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2026-04-05 16:56:49,372 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:56:49] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2026-04-05 16:59:20,273 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:59:20] "GET / HTTP/1.1" 200 -
+2026-04-05 16:59:21,049 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:59:21] "GET /static/css/styles.css HTTP/1.1" 200 -
+2026-04-05 16:59:21,177 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:59:21] "GET /static/js/main.js HTTP/1.1" 200 -
+2026-04-05 16:59:23,266 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:59:23] "GET / HTTP/1.1" 200 -
+2026-04-05 16:59:23,491 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:59:23] "GET / HTTP/1.1" 200 -
+2026-04-05 16:59:23,662 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:59:23] "GET /static/css/styles.css HTTP/1.1" 200 -
+2026-04-05 16:59:24,092 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:59:24] "GET /static/js/main.js HTTP/1.1" 200 -
+2026-04-05 16:59:24,307 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:59:24] "GET /static/css/styles.css HTTP/1.1" 200 -
+2026-04-05 16:59:24,314 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 16:59:24] "GET /static/js/main.js HTTP/1.1" 200 -
+2026-04-05 17:01:46,927 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:01:46,934 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:01:46,935 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:01:52,072 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:01:52,072 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:11:32,998 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:11:33,016 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:11:33,018 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:11:37,321 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:11:37,322 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:11:54,562 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:11:54,566 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:11:54,566 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:11:59,623 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:11:59,625 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:12:02,227 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:12:02] "GET / HTTP/1.1" 200 -
+2026-04-05 17:12:02,585 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:12:02] "GET /static/css/styles.css?v=2565 HTTP/1.1" 200 -
+2026-04-05 17:12:02,594 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:12:02] "GET /static/js/main.js?v=2565 HTTP/1.1" 200 -
+2026-04-05 17:12:24,309 - __main__ - INFO - System Request: Analyzing document 'legal_document.pdf'...
+2026-04-05 17:12:24,323 - utils.text_extraction - INFO - PDF Opened: C:\Users\Utsav Raj\OneDrive\Desktop\NLP contract summarizer for rental agreements\uploads\legal_document.pdf, Pages: 1
+2026-04-05 17:12:24,346 - utils.text_extraction - WARNING - Empty text on page 1, triggering OCR...
+2026-04-05 17:12:55,246 - utils.model_loader - INFO - Initializing Summarization Pipeline (facebook/bart-large-cnn)...
+2026-04-05 17:14:15,283 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:14:15] "POST / HTTP/1.1" 200 -
+2026-04-05 17:14:15,453 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:14:15] "GET /static/css/styles.css?v=1076 HTTP/1.1" 200 -
+2026-04-05 17:14:15,454 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:14:15] "GET /static/js/main.js?v=1076 HTTP/1.1" 200 -
+2026-04-05 17:17:28,776 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:17:28,781 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:17:28,782 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:17:34,228 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:17:34,228 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:17:37,048 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:17:37] "GET / HTTP/1.1" 200 -
+2026-04-05 17:17:37,110 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:17:37] "GET /static/css/styles.css?v=8246 HTTP/1.1" 200 -
+2026-04-05 17:17:37,112 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:17:37] "GET /static/js/main.js?v=8246 HTTP/1.1" 200 -
+2026-04-05 17:17:44,906 - __main__ - INFO - System Request: Analyzing document 'legal_document.pdf'...
+2026-04-05 17:17:44,920 - utils.text_extraction - INFO - PDF Opened: C:\Users\Utsav Raj\OneDrive\Desktop\NLP contract summarizer for rental agreements\uploads\legal_document.pdf, Pages: 1
+2026-04-05 17:17:44,932 - utils.text_extraction - WARNING - Empty text on page 1, triggering OCR...
+2026-04-05 17:19:09,273 - utils.model_loader - INFO - Initializing Translator Model: Helsinki-NLP/opus-mt-en-hi...
+2026-04-05 17:19:29,590 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:19:29] "POST / HTTP/1.1" 200 -
+2026-04-05 17:19:29,797 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:19:29] "GET /static/css/styles.css?v=6268 HTTP/1.1" 200 -
+2026-04-05 17:19:29,801 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:19:29] "GET /static/js/main.js?v=6268 HTTP/1.1" 200 -
+2026-04-05 17:20:35,359 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:20:35] "GET / HTTP/1.1" 200 -
+2026-04-05 17:20:35,416 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:20:35] "GET /static/css/styles.css?v=7186 HTTP/1.1" 200 -
+2026-04-05 17:20:35,421 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:20:35] "GET /static/js/main.js?v=7186 HTTP/1.1" 200 -
+2026-04-05 17:20:37,322 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:20:37] "GET / HTTP/1.1" 200 -
+2026-04-05 17:20:37,358 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:20:37] "GET /static/css/styles.css?v=3163 HTTP/1.1" 200 -
+2026-04-05 17:20:37,361 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:20:37] "GET /static/js/main.js?v=3163 HTTP/1.1" 200 -
+2026-04-05 17:22:49,164 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:22:49,172 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:22:49,173 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:22:56,676 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:22:56,677 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:23:47,803 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:23:47,808 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:23:47,808 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:23:52,707 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:23:52,707 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:23:55,256 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:23:55] "GET / HTTP/1.1" 200 -
+2026-04-05 17:23:55,485 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:23:55] "GET /static/js/main.js?v=4307 HTTP/1.1" 200 -
+2026-04-05 17:23:55,497 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:23:55] "GET /static/css/styles.css?v=4307 HTTP/1.1" 200 -
+2026-04-05 17:24:01,429 - __main__ - INFO - System Request: Analyzing document 'legal_document.pdf'...
+2026-04-05 17:24:01,451 - utils.text_extraction - INFO - PDF Opened: C:\Users\Utsav Raj\OneDrive\Desktop\NLP contract summarizer for rental agreements\uploads\legal_document.pdf, Pages: 1
+2026-04-05 17:24:01,466 - utils.text_extraction - WARNING - Empty text on page 1, triggering OCR...
+2026-04-05 17:24:53,895 - utils.model_loader - INFO - Initializing Summarization Pipeline (sshleifer/distilbart-cnn-12-6)...
+2026-04-05 17:26:02,827 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:26:02] "POST / HTTP/1.1" 200 -
+2026-04-05 17:26:02,903 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:26:02] "GET /static/css/styles.css?v=7539 HTTP/1.1" 200 -
+2026-04-05 17:26:02,919 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:26:02] "GET /static/js/main.js?v=7539 HTTP/1.1" 200 -
+2026-04-05 17:32:13,322 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:32:13,343 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:32:13,345 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:32:18,967 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:32:18,967 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:33:15,401 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:33:16,549 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:33:16,562 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:33:26,876 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:33:26,882 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:37:08,913 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:37:08,924 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:37:08,926 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:37:14,626 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:37:14,627 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:37:24,326 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:37:24,332 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:37:24,333 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:37:29,148 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:37:29,148 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:37:31,840 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:37:31] "GET / HTTP/1.1" 200 -
+2026-04-05 17:37:32,187 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:37:32] "GET /static/js/main.js?v=1880 HTTP/1.1" 200 -
+2026-04-05 17:37:32,192 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:37:32] "GET /static/css/styles.css?v=1880 HTTP/1.1" 200 -
+2026-04-05 17:39:40,935 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:39:40,938 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:39:40,939 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:39:45,119 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:39:45,119 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:40:06,413 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:40:06,416 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:40:06,416 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:40:11,636 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:40:11,636 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:40:13,953 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:40:13] "GET / HTTP/1.1" 200 -
+2026-04-05 17:40:14,159 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:40:14] "GET /static/css/styles.css?v=9564 HTTP/1.1" 200 -
+2026-04-05 17:40:14,164 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:40:14] "GET /static/js/main.js?v=9564 HTTP/1.1" 200 -
+2026-04-05 17:40:18,725 - __main__ - INFO - System Request: Analyzing document 'legal_document.pdf'...
+2026-04-05 17:40:18,734 - utils.text_extraction - INFO - PDF Opened: C:\Users\Utsav Raj\OneDrive\Desktop\NLP contract summarizer for rental agreements\uploads\legal_document.pdf, Pages: 1
+2026-04-05 17:40:18,745 - utils.text_extraction - WARNING - Empty text on page 1, triggering OCR...
+2026-04-05 17:40:30,669 - utils.model_loader - INFO - Initializing Summarization Pipeline (sshleifer/distilbart-cnn-12-6)...
+2026-04-05 17:41:03,990 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:41:03] "POST / HTTP/1.1" 200 -
+2026-04-05 17:41:04,056 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:41:04] "GET /static/css/styles.css?v=6519 HTTP/1.1" 200 -
+2026-04-05 17:41:04,057 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:41:04] "GET /static/js/main.js?v=6519 HTTP/1.1" 200 -
+2026-04-05 17:43:36,481 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:43:36,490 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:43:36,491 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:43:41,428 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:43:41,429 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:43:55,102 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:43:55,115 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:43:55,115 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:43:59,787 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:43:59,787 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:44:02,672 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:44:02] "GET / HTTP/1.1" 200 -
+2026-04-05 17:44:02,920 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:44:02] "GET /static/js/main.js?v=9506 HTTP/1.1" 200 -
+2026-04-05 17:44:02,920 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:44:02] "GET /static/css/styles.css?v=9506 HTTP/1.1" 200 -
+2026-04-05 17:44:09,286 - __main__ - INFO - System Request: Analyzing document 'demo_rental_agreement.pdf'...
+2026-04-05 17:44:09,294 - utils.text_extraction - INFO - PDF Opened: C:\Users\Utsav Raj\OneDrive\Desktop\NLP contract summarizer for rental agreements\uploads\demo_rental_agreement.pdf, Pages: 1
+2026-04-05 17:44:15,438 - utils.model_loader - INFO - Initializing Summarization Pipeline (sshleifer/distilbart-cnn-12-6)...
+2026-04-05 17:44:39,776 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:44:39] "POST / HTTP/1.1" 200 -
+2026-04-05 17:44:39,828 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:44:39] "GET /static/css/styles.css?v=4162 HTTP/1.1" 200 -
+2026-04-05 17:44:39,832 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:44:39] "GET /static/js/main.js?v=4162 HTTP/1.1" 200 -
+2026-04-05 17:45:10,497 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:45:10] "GET / HTTP/1.1" 200 -
+2026-04-05 17:45:10,541 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:45:10] "GET /static/css/styles.css?v=4658 HTTP/1.1" 200 -
+2026-04-05 17:45:10,546 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:45:10] "GET /static/js/main.js?v=4658 HTTP/1.1" 200 -
+2026-04-05 17:45:20,184 - __main__ - INFO - System Request: Analyzing document 'demo_rental_agreement.pdf'...
+2026-04-05 17:45:20,194 - utils.text_extraction - INFO - PDF Opened: C:\Users\Utsav Raj\OneDrive\Desktop\NLP contract summarizer for rental agreements\uploads\demo_rental_agreement.pdf, Pages: 1
+2026-04-05 17:45:46,815 - utils.model_loader - INFO - Initializing Translator Model: Helsinki-NLP/opus-mt-en-hi...
+2026-04-05 17:46:45,691 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:46:45] "POST / HTTP/1.1" 200 -
+2026-04-05 17:46:45,751 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:46:45] "GET /static/css/styles.css?v=9585 HTTP/1.1" 200 -
+2026-04-05 17:46:45,753 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:46:45] "GET /static/js/main.js?v=9585 HTTP/1.1" 200 -
+2026-04-05 17:47:13,197 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:47:13] "GET / HTTP/1.1" 200 -
+2026-04-05 17:47:13,531 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:47:13] "GET /static/css/styles.css?v=7426 HTTP/1.1" 200 -
+2026-04-05 17:47:13,767 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:47:13] "GET /static/js/main.js?v=7426 HTTP/1.1" 200 -
+2026-04-05 17:47:41,671 - __main__ - INFO - System Request: Analyzing document 'legal_document.pdf'...
+2026-04-05 17:47:41,679 - utils.text_extraction - INFO - PDF Opened: C:\Users\Utsav Raj\OneDrive\Desktop\NLP contract summarizer for rental agreements\uploads\legal_document.pdf, Pages: 1
+2026-04-05 17:47:41,685 - utils.text_extraction - WARNING - Empty text on page 1, triggering OCR...
+2026-04-05 17:48:25,086 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:48:25] "POST / HTTP/1.1" 200 -
+2026-04-05 17:48:25,147 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:48:25] "GET /static/css/styles.css?v=972 HTTP/1.1" 200 -
+2026-04-05 17:48:25,148 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:48:25] "GET /static/js/main.js?v=972 HTTP/1.1" 200 -
+2026-04-05 17:49:25,715 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:49:25] "GET / HTTP/1.1" 200 -
+2026-04-05 17:49:25,779 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:49:25] "GET /static/css/styles.css?v=8031 HTTP/1.1" 200 -
+2026-04-05 17:49:25,779 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:49:25] "GET /static/js/main.js?v=8031 HTTP/1.1" 200 -
+2026-04-05 17:52:27,833 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:52:27,840 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:52:27,840 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:52:31,834 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:52:31,834 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:52:48,387 - utils.model_loader - INFO - Initializing SentenceTransformer (all-MiniLM-L6-v2)...
+2026-04-05 17:52:48,391 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2026-04-05 17:52:48,392 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-05 17:52:52,290 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.16.114.218:5000
+2026-04-05 17:52:52,290 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-05 17:52:54,884 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:52:54] "GET / HTTP/1.1" 200 -
+2026-04-05 17:52:55,064 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:52:55] "GET /static/css/styles.css?v=5895 HTTP/1.1" 200 -
+2026-04-05 17:52:55,068 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:52:55] "GET /static/js/main.js?v=5895 HTTP/1.1" 200 -
+2026-04-05 17:52:59,405 - __main__ - INFO - System Request: Analyzing document 'demo_rental_agreement.pdf'...
+2026-04-05 17:52:59,417 - utils.text_extraction - INFO - PDF Opened: C:\Users\Utsav Raj\OneDrive\Desktop\NLP contract summarizer for rental agreements\uploads\demo_rental_agreement.pdf, Pages: 1
+2026-04-05 17:53:04,840 - utils.model_loader - INFO - Initializing Summarization Pipeline (sshleifer/distilbart-cnn-12-6)...
+2026-04-05 17:53:25,338 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:53:25] "POST / HTTP/1.1" 200 -
+2026-04-05 17:53:25,405 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:53:25] "GET /static/css/styles.css?v=5296 HTTP/1.1" 200 -
+2026-04-05 17:53:25,408 - werkzeug - INFO - 127.0.0.1 - - [05/Apr/2026 17:53:25] "GET /static/js/main.js?v=5296 HTTP/1.1" 200 -

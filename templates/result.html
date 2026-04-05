@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligence | ClauseCraft AI</title>
+    <link rel="stylesheet" href="/static/css/styles.css?v={{ _v }}">
+    <link rel="shortcut icon" href="https://img.icons8.com/ios-filled/50/10B981/contract.png" type="image/x-icon">
+    <!-- Chart.js for High-End AI Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary: #10B981; --primary-dark: #059669; --primary-light: #D1FAE5;
+            --dark: #0F172A; --secondary: #64748B; --light: #F1F5F9; --white: #FFFFFF;
+            --radius-lg: 1.25rem; --shadow-soft: 0 4px 6px -1px rgba(0,0,0,0.05);
+            --risk-high: #EF4444; --risk-medium: #F59E0B; --risk-low: #10B981;
+        }
+
+        body { font-family: 'Inter', sans-serif; background: var(--light); color: var(--dark); margin: 0; padding: 0; }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; background: var(--white); height: 80px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+        .logo { text-decoration: none; color: var(--dark); font-weight: 800; font-family: 'Outfit'; font-size: 1.4rem; }
+        
+        .dashboard-wrapper { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 80px); }
+        .sidebar { background: var(--white); border-right: 1px solid rgba(0,0,0,0.05); padding: 2.5rem 1.2rem; }
+        .main-content { padding: 3rem 5%; overflow-y: auto; }
+
+        /* Confidence Visualization (Lint-Free) */
+        .conf-outer { width: 100px; height: 6px; background: #E2E8F0; border-radius: 10px; overflow: hidden; margin-bottom: 0.25rem; }
+        .conf-inner { height: 100%; background: var(--primary); border-radius: 10px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .conf-wrapper { display: flex; flex-direction: column; gap: 0.2rem; }
+
+        /* Dashboard Metrics */
+        .clause-name-cell { font-weight: 700; font-family: 'Outfit'; }
+        .risk-cell { font-weight: 700; }
+        .risk-high { color: var(--risk-high); }
+        .risk-medium { color: var(--risk-medium); }
+        .risk-low { color: var(--risk-low); }
+        .conf-text { font-size: 0.75rem; font-weight: 700; color: var(--secondary); }
+
+        .card { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-soft); border: 1px solid rgba(0,0,0,0.05); }
+        .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 1.2rem; border-radius: 0.85rem; color: var(--secondary); text-decoration: none; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.4rem; transition: all 0.2s; }
+        .sidebar-link.active { background: var(--primary-light); color: var(--primary-dark); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeInUp 0.4s ease forwards; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .status-badge { padding: 0.4rem 0.8rem; border-radius: 0.5rem; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .present { background: #D1FAE5; color: #065F46; }
+        .missing { background: #FEE2E2; color: #991B1B; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 1.25rem 1.5rem; font-size: 0.7rem; text-transform: uppercase; color: var(--secondary); border-bottom: 2px solid var(--light); font-weight: 800; }
+        td { padding: 1.5rem; border-bottom: 1px solid var(--light); font-size: 0.9rem; }
+
+        .export-btn { background: #0F172A; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 0.75rem; font-weight: 700; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="logo">ClauseCraft <span>AI</span></a>
+        <div style="display: flex; gap: 1rem;">
+            <form action="/export" method="POST" target="_blank">
+                <input type="hidden" name="summary" value="{{ summary|e }}">
+                <input type="hidden" name="clauses" value="{{ json_clauses|e }}">
+                <input type="hidden" name="info" value="{{ json_info|e }}">
+                <input type="hidden" name="risks" value="{{ json_risks|e }}">
+                <input type="hidden" name="quality" value="{{ quality|e }}">
+                <button type="submit" class="export-btn">Download PDF Report</button>
+            </form>
+            <a href="/" class="export-btn" style="background: var(--primary);">New Extraction</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <a href="#" class="sidebar-link active" data-tab="overview">Report Overview</a>
+            <a href="#" class="sidebar-link" data-tab="clauses">Full Clauses</a>
+        </aside>
+
+        <main class="main-content">
+            <!-- Data Bridge for Chart.js (Hidden Payload) -->
+            <div id="clauses-data-payload" style="display: none;">{{ json_clauses|safe }}</div>
+
+            <!-- TAB: Overview -->
+            <div id="overview-tab" class="tab-content active">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                    <div class="card">
+                        <h2 style="font-family: 'Outfit'; margin-top: 0; font-size: 1.6rem;">Document Quality Score: {{ quality|int }}%</h2>
+                    </div>
+                    <!-- NEW: Chart Analytics Card -->
+                    <div class="card" style="padding: 1.5rem;">
+                        <h3 style="font-family: 'Outfit'; margin-top: 0; margin-bottom: 1.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary);">AI Analysis Confidence Breakdown</h3>
+                        <div style="height: 180px;"><canvas id="confidenceChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="font-family: 'Outfit'; margin-top: 0; margin-bottom: 2rem;">Executive Summary</h3>
+                    <div style="line-height: 1.8; color: #334155; white-space: pre-line; font-size: 1.05rem;">{{ summary|safe }}</div>
+                </div>
+            </div>
+
+            <!-- TAB: Clauses -->
+            <div id="clauses-tab" class="tab-content">
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <table>
+                        <thead>
+                            <tr style="background: #F8FAFC;">
+                                <th>Clause Name</th>
+                                <th>Verification</th>
+                                <th>Severity</th>
+                                <th>Analysis Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in clauses %}
+                            <tr>
+                                <td class="clause-name-cell">{{ item.Clause|e }}</td>
+                                <td>
+                                    <span class="status-badge {% if item.Status == 'Present' %}present{% else %}missing{% endif %}">{{ item.Status|e }}</span>
+                                </td>
+                                <td class="risk-cell {% if 'High' in item.Risk %}risk-high{% elif 'Medium' in item.Risk %}risk-medium{% else %}risk-low{% endif %}">
+                                    {{ item.Risk|e }}
+                                </td>
+                                <td>
+                                    <!-- Analysis Confidence Visualization -->
+                                    <div class="conf-wrapper">
+                                        <div class="conf-outer">
+                                            <div class="conf-inner" data-confidence="{{ (item.Confidence * 100)|int }}"></div>
+                                        </div>
+                                        <span class="conf-text">{{ (item.Confidence * 100)|int }}%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/js/main.js?v={{ _v }}"></script>
+</body>
+</html>

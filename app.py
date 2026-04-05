@@ -1,237 +1,185 @@
-import streamlit as st
-import pandas as pd
-import altair as alt
+import os
+import logging
+import json
+from flask import Flask, render_template, request, flash, redirect, url_for, send_file, jsonify
+from werkzeug.utils import secure_filename
+from io import BytesIO
 
+# --- PRODUCTION CONFIGURATION ---
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['USE_TORCH'] = '1'
+os.environ['TRANSFORMERS_NO_TENSORFLOW'] = '1'
+
+# Configure Professional Dual-Logging (Console + File)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler("app.log")
+    ]
+)
+logger = logging.getLogger(__name__)
+
+# --- APP INITIALIZATION ---
+app = Flask(__name__)
+
+@app.context_processor
+def inject_version():
+    """Provides a random versioning token to all templates for cache busting."""
+    import random
+    return dict(_v=random.randint(100, 9999))
+# Production Note: Use environment variable for secret_key in real deploy
+app.secret_key = os.environ.get("FLASK_SECRET", os.urandom(24))
+app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), "uploads")
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16MB Safeguard
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+# Optimized Logic Imports
 from utils.text_extraction import extract_text
+from utils.classifier import classify_document
 from utils.clause_extraction import extract_clauses
 from utils.summarizer import generate_summary
 from utils.translator import translate_text
 from utils.info_extractor import extract_agreement_info
-from utils.risk_detector import detect_clause_risk
+from utils.risk_detector import detect_clause_risk, get_detailed_risks
 from utils.report_generator import generate_report
+from utils.model_loader import loader
 
-# --------------------------------------------------
-# PAGE CONFIG
-# --------------------------------------------------
-st.set_page_config(
-    page_title="ClauseCraft AI",
-    page_icon="⚖️",
-    layout="wide"
-)
+ALLOWED_EXTENSIONS = {"pdf", "docx", "jpg", "jpeg", "png"}
 
-# --------------------------------------------------
-# SIDEBAR
-# --------------------------------------------------
-with st.sidebar:
-    st.title("⚖️ ClauseCraft AI")
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-    st.markdown("### About")
-    st.write(
-        """
-        ClauseCraft AI is an NLP-powered legal assistant that analyzes
-        rental agreements. It summarizes contracts, detects clauses,
-        identifies risks, and extracts key information automatically.
-        """
-    )
+# --- SYSTEM HEALTH MONITORING ---
+@app.route("/health")
+def health_check():
+    """Production health check for monitoring tools."""
+    return jsonify({"status": "healthy", "service": "ClauseCraft AI Engine"}), 200
 
-    st.markdown("### Features")
-    st.markdown("""
-    - Contract summarization
-    - Clause detection
-    - Clause evidence highlighting
-    - Risk detection
-    - Agreement information extraction
-    - Smart clause suggestions
-    - Clause confidence visualization
-    """)
+# --- EXPORT REPORT (High-Performance PDF Generation) ---
+@app.route("/export", methods=["POST"])
+def export_report():
+    """Generates a premium branded PDF for the analysis results."""
+    try:
+        summary = request.form.get("summary", "No Summary Information Available.")
+        clauses_raw = request.form.get("clauses", "[]")
+        info_raw = request.form.get("info", "{}")
+        risks_raw = request.form.get("risks", "[]")
+        quality = request.form.get("quality", "0")
 
-    st.markdown("### Supported Files")
-    st.markdown("""
-    - PDF
-    - DOCX
-    - JPG / PNG
-    """)
+        # Decode analysis data for the generator
+        clauses = json.loads(clauses_raw)
+        info = json.loads(info_raw)
+        risks = json.loads(risks_raw)
 
-# --------------------------------------------------
-# HEADER
-# --------------------------------------------------
-st.title("⚖️ ClauseCraft AI")
-st.caption("AI-powered Rental Agreement Analyzer")
-
-st.divider()
-
-# --------------------------------------------------
-# FILE INPUT
-# --------------------------------------------------
-col1, col2 = st.columns([2,1])
-
-with col1:
-    uploaded_file = st.file_uploader(
-        "Upload Rental Agreement",
-        type=["pdf","docx","jpg","png"]
-    )
-
-with col2:
-    language = st.selectbox(
-        "Summary Language",
-        ["English","Hindi","Tamil","Telugu","Marathi"]
-    )
-
-st.divider()
-
-# --------------------------------------------------
-# PROCESS DOCUMENT
-# --------------------------------------------------
-if uploaded_file:
-
-    with st.spinner("Analyzing document..."):
-
-        raw_text = extract_text(uploaded_file, uploaded_file.name)
-
-        summary = generate_summary(raw_text)
-
-        clauses = extract_clauses(raw_text)
-
-        info = extract_agreement_info(raw_text)
-
-        risks = detect_clause_risk(clauses)
-
+        pdf_buffer = generate_report(summary, clauses, info, risks, quality)
         
+        return send_file(
+            pdf_buffer,
+            as_attachment=True,
+            download_name="ClauseCraft_Analysis_Report.pdf",
+            mimetype="application/pdf"
+        )
+    except Exception as e:
+        logger.error(f"Export Failed: {str(e)}")
+        return "Failed to generate legal report.", 500
 
-        final_summary = summary
-        if language != "English":
-            final_summary = translate_text(summary, language)
+# --- CORE ANALYSIS ENGINE ---
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        if "file" not in request.files:
+            flash("Payload rejection: No document file attached.")
+            return redirect(request.url)
+        
+        file = request.files["file"]
+        language = request.form.get("language", "English")
 
-    st.success("Document processed successfully!")
+        if file.filename == "":
+            flash("Selection rejection: No document selected.")
+            return redirect(request.url)
 
-# --------------------------------------------------
-# SUMMARY
-# --------------------------------------------------
-    st.subheader("📌 Contract Summary")
-    st.success(final_summary)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
 
-    st.download_button(
-        "⬇ Download Summary",
-        data=final_summary,
-        file_name="ClauseCraft_Summary.txt"
-    )
+            try:
+                logger.info(f"System Request: Analyzing document '{filename}'...")
+                
+                # 1. Pipeline: Extraction -> Classification -> Extraction
+                raw_text = extract_text(filepath, filename)
+                if not raw_text.strip():
+                    return "Zero-Text Context: Document is either encrypted or purely graphic without OCR data.", 400
 
-# --------------------------------------------------
-# SUMMARY COMPRESSION SCORE
-# --------------------------------------------------
-if uploaded_file:
+                doc_type, conf = classify_document(raw_text)
+                info = extract_agreement_info(raw_text, doc_type)
+                summary = generate_summary(raw_text, info)
+                clauses = extract_clauses(raw_text, doc_type)
+                risks = detect_clause_risk(clauses, doc_type)
+                detailed_risks = get_detailed_risks(raw_text)
 
-    raw_text = extract_text(uploaded_file, uploaded_file.name)
+                # 2. Multilingual Processor
+                final_summary = summary
+                if language != "English":
+                    final_summary = translate_text(summary, language)
 
-    original_words = len(raw_text.split())
-    summary_words = len(final_summary.split())
+                # 3. Intelligence Metrics
+                original_words = len(raw_text.split())
+                summary_words = len(final_summary.split())
+                compression = round((1 - summary_words/original_words) * 100, 1) if original_words > 0 else 0
+                
+                total = len(clauses)
+                present = sum("Present" in v for v in clauses.values())
+                quality_score = round((present / total) * 100, 1) if total > 0 else 0
 
-    if original_words > 0:
-        compression_ratio = round((1 - summary_words/original_words) * 100,2)
-    else:
-        compression_ratio = 0
+                # 4. Result Formatting (Unified UI State)
+                table_data = []
+                for clause, status in clauses.items():
+                    conf_score = 0
+                    if "(" in status and ")" in status:
+                        try: conf_score = float(status.split("(")[1].split(")")[0])
+                        except: pass
+                    
+                    state = "Present" if "Present" in status else "Missing"
+                    table_data.append({
+                        "Clause": clause,
+                        "Status": state,
+                        "Risk": risks.get(clause, "Informational"),
+                        "Confidence": conf_score
+                    })
 
-    st.metric("Summary Compression", f"{compression_ratio}%")
+                # 5. Dashboard Hand-off
+                return render_template(
+                    "result.html",
+                    summary=final_summary,
+                    clauses=table_data,
+                    info=info,
+                    compression=compression,
+                    quality=quality_score,
+                    doc_type=doc_type,
+                    confidence=conf,
+                    detailed_risks=detailed_risks,
+                    # Serialization for export engine
+                    json_info=json.dumps(info),
+                    json_risks=json.dumps(detailed_risks),
+                    json_clauses=json.dumps(table_data)
+                )
 
-# --------------------------------------------------
-# AGREEMENT INFORMATION
-# --------------------------------------------------
-    st.subheader("📄 Extracted Agreement Information")
-
-    if info:
-        info_df = pd.DataFrame(info.items(), columns=["Field","Value"])
-        st.table(info_df)
-    
-
-# --------------------------------------------------
-# CLAUSE DASHBOARD
-# --------------------------------------------------
-    st.subheader("📊 Clause Intelligence Dashboard")
-
-    table_data = []
-
-    for clause, status in clauses.items():
-
-        if "(" in status:
-            confidence = float(status.split("(")[1].replace(")",""))
+            except Exception as e:
+                logger.error(f"Pipeline Integrity Crash: {str(e)}")
+                return f"Internal Intelligence Failure: {str(e)}", 500
+            finally:
+                if os.path.exists(filepath):
+                    try: os.remove(filepath)
+                    except: pass
         else:
-            confidence = 0
+            flash("Protocol error: Unsupported file extension.")
+            return redirect(request.url)
 
-        state = "Present" if "Present" in status else "Missing"
+    return render_template("index.html")
 
-        table_data.append({
-            "Clause": clause,
-            "Status": state,
-            "Risk": risks.get(clause,"Unknown"),
-            "Confidence": confidence
-        })
-
-    df = pd.DataFrame(table_data)
-
-    st.dataframe(df, use_container_width=True)
-
-
-
-
-# --------------------------------------------------
-# AGREEMENT QUALITY SCORE
-# --------------------------------------------------
-    total = len(clauses)
-    present = sum("Present" in v for v in clauses.values())
-
-    quality_score = round((present/total)*100,2)
-
-    st.metric("Agreement Quality Score", f"{quality_score}/100")
-
-# --------------------------------------------------
-# CLAUSE CONFIDENCE GRAPH
-# --------------------------------------------------
-    st.subheader("📈 Clause Confidence Visualization")
-
-    chart_df = df.copy()
-
-    chart = alt.Chart(chart_df).mark_bar().encode(
-        x=alt.X("Clause:N", sort='-y', title="Clause Type"),
-        y=alt.Y("Confidence:Q", scale=alt.Scale(domain=[0,1]), title="Confidence Score"),
-        color=alt.Color(
-            "Status:N",
-            scale=alt.Scale(
-                domain=["Present","Missing"],
-                range=["green","red"]
-            ),
-            legend=alt.Legend(title="Clause Status")
-        ),
-        tooltip=["Clause","Status","Confidence"]
-    ).properties(
-        height=400
-    )
-
-    st.altair_chart(chart, use_container_width=True)
-
-# --------------------------------------------------
-# EXPORT REPORT
-# --------------------------------------------------
-if uploaded_file:
-
-    st.subheader("📄 Download Full AI Report")
-
-    report_file = generate_report(
-        final_summary,
-        clauses,
-        info,
-        risks,
-        quality_score
-    )
-
-    st.download_button(
-        label="Download ClauseCraft AI Report",
-        data=report_file,
-        file_name="ClauseCraft_Report.pdf",
-        mime="application/pdf"
-    )
-
-# --------------------------------------------------
-# FOOTER
-# --------------------------------------------------
-st.divider()
-st.caption("ClauseCraft AI • NLP Legal Intelligence System")
+# --- SERVER STARTUP ---
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=False)

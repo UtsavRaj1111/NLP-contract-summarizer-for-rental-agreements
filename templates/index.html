@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClauseCraft AI | Universal Legal Intelligence</title>
+    <!-- Dynamic Cache Busting -->
+    <link rel="stylesheet" href="/static/css/styles.css?v={{ _v }}">
+    <link rel="shortcut icon" href="https://img.icons8.com/ios-filled/50/10B981/contract.png" type="image/x-icon">
+    
+    <style>
+        :root {
+            --primary: #10B981; --primary-dark: #059669; --primary-light: #D1FAE5;
+            --dark: #0F172A; --secondary: #64748B; --light: #F8FAFC; --white: #FFFFFF;
+            --radius: 1rem; --radius-lg: 1.5rem;
+        }
+
+        body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--dark); margin: 0; padding: 0; overflow-x: hidden; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 5%; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; height: 80px; box-sizing: border-box; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.4rem; color: var(--dark); text-decoration: none; font-family: 'Outfit', sans-serif; }
+        .logo span { color: var(--primary); }
+
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; color: white; text-align: center; }
+        .loader { width: 48px; height: 48px; border: 4px solid var(--primary-light); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1.5rem; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .hero { padding: 8rem 5% 6rem; text-align: center; max-width: 900px; margin: 0 auto; box-sizing: border-box; }
+        .badge { display: inline-block; background: var(--primary-light); color: var(--primary-dark); padding: 0.5rem 1.25rem; border-radius: 999px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+        .hero h1 { font-size: 3.5rem; font-family: 'Outfit', sans-serif; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; }
+        .hero h1 span { color: var(--primary); display: block; }
+        
+        .cta-container { background: var(--white); padding: 2rem; border-radius: var(--radius-lg); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); border: 1px solid rgba(0,0,0,0.05); display: inline-block; margin-top: 2rem; }
+        .input-group { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center; }
+        
+        select { padding: 0.8rem 1.2rem; border-radius: 0.75rem; border: 1px solid #E2E8F0; font-family: inherit; color: var(--dark); cursor: pointer; background: white; outline: none; }
+        select:focus { border-color: var(--primary); }
+        
+        .btn-primary { background: var(--primary); color: white; padding: 1rem 2.5rem; border-radius: var(--radius); font-weight: 700; border: none; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; font-size: 1rem; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+            ClauseCraft <span>AI</span>
+        </a>
+        <button class="btn-primary" id="nav-upload-trigger" style="padding: 0.6rem 1.25rem; font-size: 0.85rem;">Extract Intelligence</button>
+    </nav>
+
+    <div class="overlay" id="loader-overlay">
+        <div class="loader"></div>
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 1rem;">Analyzing Document</h2>
+        <p style="opacity: 0.8;">Our AI is currently mapping clauses and identifying risks. This takes just a moment.</p>
+    </div>
+
+    <section class="hero">
+        <span class="badge">Universal Legal Assistant</span>
+        <h1>ClauseCraft AI <span>Legalese Expert</span></h1>
+        <p style="font-size: 1.25rem; color: var(--secondary); line-height: 1.6; margin-bottom: 1rem;">Instantly identify risks, extract key terms, and summarize complex agreements using Smart AI Analysis.</p>
+        
+        <div class="cta-container">
+            <form action="/" method="POST" enctype="multipart/form-data" id="upload-form-ui">
+                <input type="file" name="file" id="file-input" style="display: none;">
+                <div class="input-group">
+                    <select name="language" id="language-select">
+                        <option value="English">Translate to English</option>
+                        <option value="Hindi">Translate to Hindi</option>
+                        <option value="Spanish">Translate to Spanish</option>
+                        <option value="French">Translate to French</option>
+                    </select>
+                    <button type="button" class="btn-primary" id="hero-upload-trigger">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        Upload Agreement
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer style="padding: 4rem 5%; background: var(--dark); color: white; text-align: center;">
+        <p style="font-size: 0.9rem; opacity: 0.8;">© 2026 ClauseCraft AI. All rights reserved. Built with Smart AI Analysis.</p>
+    </footer>
+
+    <script src="/static/js/main.js?v={{ _v }}"></script>
+</body>
+</html>
