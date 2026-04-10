@@ -1,206 +1,159 @@
-## ⚖️ ClauseCraft AI
-NLP Contract Summarizer for Rental Agreements
+# 📄 NLP Contract Summarizer for Rental Agreements
 
-ClauseCraft AI is an NLP-powered legal assistant designed to automatically analyze rental agreements.
-It extracts key information, summarizes contracts, detects clauses, identifies potential legal risks, and provides suggestions for safer agreements.
+<p align="center">
+  <b>AI-powered tool to summarize rental agreements into simple, readable insights</b>
+</p>
 
-This project helps tenants, landlords, and legal professionals quickly understand complex rental contracts.
+---
 
- ## Features
- 
-📄 Contract Text Extraction
+<p align="center">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" />
+  <img src="https://img.shields.io/badge/license-MIT-green.svg" />
+  <img src="https://img.shields.io/badge/AI-NLP-orange.svg" />
+  <img src="https://img.shields.io/badge/status-active-success.svg" />
+</p>
 
-● Extracts text from uploaded PDF rental agreements
-● Handles structured and semi-structured documents
+---
 
-🧠 Automatic Contract Summarization
+## 🚀 Overview
 
-● Uses NLP techniques to generate a concise summary
-● Highlights important sections of the agreement
+This project uses **Natural Language Processing (NLP)** to analyze and summarize rental agreements into concise, easy-to-understand summaries.
 
-📑 Clause Detection
+It helps users quickly understand:
 
-● Automatically identifies key clauses such as:
-● Rent payment terms
-● Security deposit conditions
-● Termination clauses
-● Maintenance responsibilities
-● Penalties and obligations
+* Key clauses
+* Important conditions
+* Hidden risks
 
-⚠️ Risk Detection
+---
 
-● Detects potentially risky or unfair clauses, including:
-● One-sided termination rights
-● Excessive penalties
-● Ambiguous obligations
+## ✨ Features
 
-📊 Key Information Extraction
+* 📄 Extracts important information from contracts
+* 🤖 AI-powered text summarization
+* ⚡ Fast and efficient processing
+* 📌 Highlights key clauses and terms
+* 🧠 Reduces legal complexity for users
 
-● Extracts structured information including:
-● Tenant name
-● Landlord name
-● Rent amount
-● Lease duration
-● Security deposit
-● Property address
+---
 
-🌍 Translation Support
+## 🧠 How It Works
 
-● Supports translation of contract summaries for better accessibility.
+```mermaid id="h9m3p2"
+graph LR
+A[Input Contract] --> B[Text Preprocessing]
+B --> C[NLP Model Processing]
+C --> D[Summarization]
+D --> E[Final Output]
+```
 
-📑 Report Generation
+---
 
-● Generates a structured analysis report of the agreement.
+## 📂 Project Structure
 
-📊 Visualization Dashboard
-
-● Displays insights using Altair charts inside the Streamlit interface.
-
-## Project Architecture
-NLP Contract Summarizer for Rental Agreements
-│
+```id="0v2a4q"
+├── data/
+├── models/
+├── utils/
 ├── app.py
-│
-├── utils
-│   ├── text_extraction.py
-│   ├── preprocessing.py
-│   ├── clause_extraction.py
-│   ├── summarizer.py
-│   ├── info_extractor.py
-│   ├── risk_detector.py
-│   ├── suggestions.py
-│   ├── translator.py
-│   └── report_generator.py
-│
-├── sample_docs
-│   └── RENTAL AGREEMENT.pdf
-│
 ├── requirements.txt
-├── runtime.txt
-├── packages.txt
-└── .gitignore
+└── README.md
+```
 
-## Tech Stack
+---
 
-Frontend:
-● Streamlit
+## ⚙️ Installation
 
-NLP & Data Processing:
-● Python
-● NLTK / SpaCy (or similar NLP tools)
-● Regex
-● Transformers 
-
-Visualization:
-● Altair
-● Pandas
-
-Document Processing:
-● PDF text extraction libraries
-
-## Installation
-Clone the repository:
-git clone https://github.com/yourusername/clausecraft-ai.git
-cd clausecraft-ai
-
-## Create virtual environment:
-python -m venv venv
-
-## Activate environment:
-Mac/Linux:
-source venv/bin/activate
-
-Windows:
-venv\Scripts\activate
-
-## Install dependencies:
+```bash id="x7l1v0"
+git clone https://github.com/UtsavRaj1111/NLP-contract-summarizer-for-rental-agreements.git
+cd NLP-contract-summarizer-for-rental-agreements
 pip install -r requirements.txt
+```
 
-## Running the Application
-Start the Streamlit server:
-streamlit run app.py
+---
 
-The application will open at:
-http://localhost:8501
+## ▶️ Usage
 
-## Example Workflow
+```bash id="v3pz5t"
+python app.py
+```
 
-1️⃣ Upload a rental agreement PDF
-2️⃣ The system extracts the text
-3️⃣ NLP modules process the contract
+👉 Provide a rental agreement text → get summarized output
 
-The system then provides:
-● Contract summary
-● Extracted clauses
-● Risk analysis
-● Suggestions
-● Structured report
+---
 
-## Example Output
-The application produces:
-📄 Contract Summary
-⚠️ Risky Clauses
-📑 Clause Breakdown
-📊 Visual Analytics
-📑 Downloadable Report
+## 📌 Example
 
-## Core Modules
-● text_extraction.py
-Extracts raw text from uploaded documents.
+**Input:**
 
-● preprocessing.py
-Cleans and prepares text for NLP processing.
+```txt id="6k9p1l"
+This agreement is made between the landlord and tenant...
+```
 
-● clause_extraction.py
-Detects legal clauses using rule-based and NLP methods.
+**Output:**
 
-● summarizer.py
-Generates contract summaries.
+```txt id="z7x2pd"
+- Lease duration: 12 months  
+- Monthly rent: ₹10,000  
+- Security deposit required  
+- Termination requires 30 days notice  
+```
 
-● info_extractor.py
-Extracts key structured details from agreements.
+---
 
-● risk_detector.py
-Identifies risky clauses using heuristic rules.
+## 🔐 Privacy & Security
 
-● suggestions.py
-Suggests safer clause alternatives.
+* No data is stored permanently
+* All processing is local / controlled
+* No third-party sharing
 
-● translator.py
-Provides multilingual support.
+---
 
-● report_generator.py
-Creates a structured legal analysis report.
+## 📊 Tech Stack
 
-## Limitations
+* 🐍 Python
+* 📚 NLP (NLTK / spaCy / Transformers)
+* 🤖 Machine Learning Models
 
-● Not a substitute for professional legal advice
-● Accuracy depends on contract formatting
-● May miss complex legal nuances
+---
 
-## Future Improvements
+## 🚧 Future Improvements
 
-● AI-based clause classification using transformers
-● Multi-language contract analysis
-● OCR support for scanned PDFs
-● Legal compliance checks by region
-● Automatic contract comparison
-● Downloadable PDF legal reports
+* 🌐 Web UI for easy interaction
+* 📊 Clause classification
+* 🗂️ Multi-document support
+* 🔍 Risk detection system
 
-## Contributing
+---
+
+## 🤝 Contributing
+
 Contributions are welcome!
 
-● Steps:
-Fork the repository
+```bash id="v8tq1j"
+git fork
+git clone
+git commit -m "improvement"
+git push
+```
 
-● Create a feature branch
-git checkout -b feature/new-feature
+---
 
-● Commit changes
-git commit -m "Add new feature"
+## ⭐ Support
 
-● Push to GitHub and create a PR
+If you like this project:
 
+👉 Star the repository
+👉 Share with others
 
+---
 
+## 📄 License
 
+MIT License © 2026
+
+---
+
+<p align="center">
+  Made with ❤️ by UtsavRaj1111
+</p>
