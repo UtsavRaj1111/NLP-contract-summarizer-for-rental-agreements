@@ -45,6 +45,7 @@ from utils.info_extractor import extract_agreement_info
 from utils.risk_detector import detect_clause_risk, get_detailed_risks
 from utils.report_generator import generate_report
 from utils.model_loader import loader
+from utils.chatbot import answer_question
 
 ALLOWED_EXTENSIONS = {"pdf", "docx", "jpg", "jpeg", "png"}
 
@@ -84,6 +85,22 @@ def export_report():
     except Exception as e:
         logger.error(f"Export Failed: {str(e)}")
         return "Failed to generate legal report.", 500
+
+# --- CHATBOT API ---
+@app.route("/api/chat", methods=["POST"])
+def chat_api():
+    """Handles questions related to the document using NLP extraction."""
+    try:
+        data = request.get_json()
+        question = data.get("question", "")
+        document_text = data.get("document_text", "")
+        summary_text = data.get("summary_text", "")
+
+        answer = answer_question(question, document_text, summary_text)
+        return jsonify({"answer": answer})
+    except Exception as e:
+        logger.error(f"Chat API Error: {str(e)}")
+        return jsonify({"answer": "Sorry, an internal error occurred while processing your request."}), 500
 
 # --- CORE ANALYSIS ENGINE ---
 @app.route("/", methods=["GET", "POST"])
@@ -164,7 +181,8 @@ def index():
                     # Serialization for export engine
                     json_info=json.dumps(info),
                     json_risks=json.dumps(detailed_risks),
-                    json_clauses=json.dumps(table_data)
+                    json_clauses=json.dumps(table_data),
+                    raw_text=raw_text
                 )
 
             except Exception as e:

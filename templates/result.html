@@ -5,135 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intelligence | ClauseCraft AI</title>
     <link rel="stylesheet" href="/static/css/styles.css?v={{ _v }}">
-    <link rel="shortcut icon" href="https://img.icons8.com/ios-filled/50/10B981/contract.png" type="image/x-icon">
-    <!-- Chart.js for High-End AI Visualization -->
+    <link rel="shortcut icon" href="https://img.icons8.com/ios-filled/50/8B5CF6/contract.png" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <style>
-        :root {
-            --primary: #10B981; --primary-dark: #059669; --primary-light: #D1FAE5;
-            --dark: #0F172A; --secondary: #64748B; --light: #F1F5F9; --white: #FFFFFF;
-            --radius-lg: 1.25rem; --shadow-soft: 0 4px 6px -1px rgba(0,0,0,0.05);
-            --risk-high: #EF4444; --risk-medium: #F59E0B; --risk-low: #10B981;
-        }
-
-        body { font-family: 'Inter', sans-serif; background: var(--light); color: var(--dark); margin: 0; padding: 0; }
-        
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; background: var(--white); height: 80px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
-        .logo { text-decoration: none; color: var(--dark); font-weight: 800; font-family: 'Outfit'; font-size: 1.4rem; }
-        
-        .dashboard-wrapper { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 80px); }
-        .sidebar { background: var(--white); border-right: 1px solid rgba(0,0,0,0.05); padding: 2.5rem 1.2rem; }
-        .main-content { padding: 3rem 5%; overflow-y: auto; }
-
-        /* Confidence Visualization (Lint-Free) */
-        .conf-outer { width: 100px; height: 6px; background: #E2E8F0; border-radius: 10px; overflow: hidden; margin-bottom: 0.25rem; }
-        .conf-inner { height: 100%; background: var(--primary); border-radius: 10px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
-        .conf-wrapper { display: flex; flex-direction: column; gap: 0.2rem; }
-
-        /* Dashboard Metrics */
-        .clause-name-cell { font-weight: 700; font-family: 'Outfit'; }
-        .risk-cell { font-weight: 700; }
-        .risk-high { color: var(--risk-high); }
-        .risk-medium { color: var(--risk-medium); }
-        .risk-low { color: var(--risk-low); }
-        .conf-text { font-size: 0.75rem; font-weight: 700; color: var(--secondary); }
-
-        .card { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-soft); border: 1px solid rgba(0,0,0,0.05); }
-        .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 1.2rem; border-radius: 0.85rem; color: var(--secondary); text-decoration: none; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.4rem; transition: all 0.2s; }
-        .sidebar-link.active { background: var(--primary-light); color: var(--primary-dark); }
-
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeInUp 0.4s ease forwards; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .status-badge { padding: 0.4rem 0.8rem; border-radius: 0.5rem; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
-        .present { background: #D1FAE5; color: #065F46; }
-        .missing { background: #FEE2E2; color: #991B1B; }
-
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 1.25rem 1.5rem; font-size: 0.7rem; text-transform: uppercase; color: var(--secondary); border-bottom: 2px solid var(--light); font-weight: 800; }
-        td { padding: 1.5rem; border-bottom: 1px solid var(--light); font-size: 0.9rem; }
-
-        .export-btn { background: #0F172A; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 0.75rem; font-weight: 700; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="dashboard-body">
+    <div class="bg-mesh"></div>
 
-    <nav>
-        <a href="/" class="logo">ClauseCraft <span>AI</span></a>
-        <div style="display: flex; gap: 1rem;">
+    <nav id="main-nav" class="scrolled">
+        <a href="/" class="logo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+            </svg>
+            ClauseCraft <span>AI</span>
+        </a>
+        <div class="nav-actions">
             <form action="/export" method="POST" target="_blank">
                 <input type="hidden" name="summary" value="{{ summary|e }}">
                 <input type="hidden" name="clauses" value="{{ json_clauses|e }}">
                 <input type="hidden" name="info" value="{{ json_info|e }}">
                 <input type="hidden" name="risks" value="{{ json_risks|e }}">
                 <input type="hidden" name="quality" value="{{ quality|e }}">
-                <button type="submit" class="export-btn">Download PDF Report</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-file-pdf"></i> Download Report
+                </button>
             </form>
-            <a href="/" class="export-btn" style="background: var(--primary);">New Extraction</a>
+            <a href="/" class="btn btn-secondary">New Extraction</a>
         </div>
     </nav>
 
     <div class="dashboard-wrapper">
-        <aside class="sidebar">
-            <a href="#" class="sidebar-link active" data-tab="overview">Report Overview</a>
-            <a href="#" class="sidebar-link" data-tab="clauses">Full Clauses</a>
-        </aside>
-
         <main class="main-content">
-            <!-- Data Bridge for Chart.js (Hidden Payload) -->
             <div id="clauses-data-payload" style="display: none;">{{ json_clauses|safe }}</div>
+            <div id="doc-text-payload" style="display: none;">{{ raw_text|e }}</div>
+            <div id="summary-text-payload" style="display: none;">{{ summary|e }}</div>
 
-            <!-- TAB: Overview -->
-            <div id="overview-tab" class="tab-content active">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
-                    <div class="card">
-                        <h2 style="font-family: 'Outfit'; margin-top: 0; font-size: 1.6rem;">Document Quality Score: {{ quality|int }}%</h2>
+            <!-- Header Section -->
+            <div class="dashboard-header">
+                <span class="badge">Legal Analysis Complete</span>
+                <h1>Document Intelligence Report</h1>
+                <p>Advanced neural analysis of your legal agreement and risk profile.</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <h3>Document Quality Score</h3>
+                    <div class="gauge-wrapper">
+                        <svg viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="54" class="gauge-bg" />
+                            <circle cx="60" cy="60" r="54" class="gauge-bar" data-quality-score="{{ quality|int }}" />
+                        </svg>
+                        <div class="gauge-value">{{ quality|int }}%</div>
                     </div>
-                    <!-- NEW: Chart Analytics Card -->
-                    <div class="card" style="padding: 1.5rem;">
-                        <h3 style="font-family: 'Outfit'; margin-top: 0; margin-bottom: 1.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary);">AI Analysis Confidence Breakdown</h3>
-                        <div style="height: 180px;"><canvas id="confidenceChart"></canvas></div>
-                    </div>
+                    <p>Overall health based on detected risks.</p>
                 </div>
 
-                <div class="card">
-                    <h3 style="font-family: 'Outfit'; margin-top: 0; margin-bottom: 2rem;">Executive Summary</h3>
-                    <div style="line-height: 1.8; color: #334155; white-space: pre-line; font-size: 1.05rem;">{{ summary|safe }}</div>
+                <div class="card chart-card">
+                    <h3>Confidence Breakdown</h3>
+                    <div class="chart-container">
+                        <canvas id="confidenceChart"></canvas>
+                    </div>
                 </div>
             </div>
 
-            <!-- TAB: Clauses -->
-            <div id="clauses-tab" class="tab-content">
-                <div class="card" style="padding: 0; overflow: hidden;">
+            <!-- Executive Summary -->
+            <div class="section-card summary-section">
+                <div class="section-title">
+                    <div class="icon-box"><i class="fas fa-brain"></i></div>
+                    <div>
+                        <h2>Executive Legal Summary</h2>
+                        <p>AI-generated distillation of key obligations.</p>
+                    </div>
+                </div>
+                <div class="summary-content">
+                    {{ summary|safe }}
+                </div>
+            </div>
+
+            <!-- Clauses Table -->
+            <div class="section-card table-section">
+                <div class="section-title">
+                    <div class="icon-box"><i class="fas fa-list-ul"></i></div>
+                    <div>
+                        <h2>Extracted Clauses</h2>
+                        <p>Verification of critical contract components.</p>
+                    </div>
+                </div>
+                <div class="table-container">
                     <table>
                         <thead>
-                            <tr style="background: #F8FAFC;">
+                            <tr>
                                 <th>Clause Name</th>
-                                <th>Verification</th>
-                                <th>Severity</th>
-                                <th>Analysis Confidence</th>
+                                <th>Status</th>
+                                <th>Risk Level</th>
+                                <th>AI Confidence</th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for item in clauses %}
                             <tr>
-                                <td class="clause-name-cell">{{ item.Clause|e }}</td>
-                                <td>
-                                    <span class="status-badge {% if item.Status == 'Present' %}present{% else %}missing{% endif %}">{{ item.Status|e }}</span>
-                                </td>
-                                <td class="risk-cell {% if 'High' in item.Risk %}risk-high{% elif 'Medium' in item.Risk %}risk-medium{% else %}risk-low{% endif %}">
-                                    {{ item.Risk|e }}
-                                </td>
-                                <td>
-                                    <!-- Analysis Confidence Visualization -->
-                                    <div class="conf-wrapper">
-                                        <div class="conf-outer">
-                                            <div class="conf-inner" data-confidence="{{ (item.Confidence * 100)|int }}"></div>
-                                        </div>
-                                        <span class="conf-text">{{ (item.Confidence * 100)|int }}%</span>
+                                <td class="clause-name">{{ item.Clause|e }}</td>
+                                <td><span class="status-badge {{ item.Status|lower }}">{{ item.Status|e }}</span></td>
+                                <td class="risk-cell {{ item.Risk|lower|replace(' ', '-') }}">{{ item.Risk|e }}</td>
+                                <td class="conf-cell">
+                                    <div class="conf-bar-bg">
+                                        <div class="conf-bar" style="--conf: {{ (item.Confidence * 100)|int }}%;"></div>
                                     </div>
+                                    <span>{{ (item.Confidence * 100)|int }}%</span>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -141,9 +121,108 @@
                     </table>
                 </div>
             </div>
+
         </main>
     </div>
 
+    <!-- AI Assistant V2 (The Symbol) -->
+    <div class="ai-v2-toggle" id="ai-toggle-v2">
+        <i class="fas fa-robot"></i>
+        <div class="ai-v2-pulse"></div>
+    </div>
+
+    <!-- AI Assistant V2 (The Interface) -->
+    <div class="ai-v2-window" id="ai-window-v2">
+        <div class="ai-v2-header">
+            <div class="ai-v2-header-info">
+                <i class="fas fa-brain"></i>
+                <span>ClauseCraft AI Assistant</span>
+            </div>
+            <button id="ai-close-v2"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="ai-v2-messages" id="ai-messages-v2">
+            <div class="ai-v2-msg ai-v2-bot">I've analyzed your document. How can I help you understand specific obligations or risks today?</div>
+        </div>
+
+        <div class="ai-v2-footer">
+            <div class="ai-v2-suggestions">
+                <button class="ai-v2-suggest-btn" data-q="What are my financial obligations?">Financial Obligations?</button>
+                <button class="ai-v2-suggest-btn" data-q="Is there a termination penalty?">Termination Penalty?</button>
+            </div>
+
+            <div class="ai-v2-input-group">
+                <input type="text" id="ai-input-v2" placeholder="Ask anything...">
+                <button id="ai-send-v2"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Bridges -->
+    <div id="doc-text-payload" style="display: none;">{{ raw_text|e }}</div>
+    <div id="summary-text-payload" style="display: none;">{{ summary|e }}</div>
+
+    <footer style="padding: 6rem 8% 4rem; background: var(--dark); color: var(--text-primary); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4rem;">
+        <div style="max-width: 1100px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4rem; margin-bottom: 2rem;">
+                <a href="/" class="logo" style="color: white; text-decoration: none; font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    ClauseCraft <span style="background: var(--grad-primary); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">AI</span>
+                </a>
+                <div style="display: flex; gap: 2rem;">
+                    <a href="#" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Privacy Policy</a>
+                    <a href="#" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Terms of Service</a>
+                </div>
+            </div>
+            <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; opacity: 0.6;">© 2026 ClauseCraft AI. Engineered for Legal Excellence.</p>
+        </div>
+    </footer>
+
     <script src="/static/js/main.js?v={{ _v }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gauge = document.querySelector('.gauge-bar');
+            if (gauge) {
+                const score = parseInt(gauge.getAttribute('data-quality-score'));
+                const circumference = 2 * Math.PI * 54;
+                const offset = circumference - (score / 100) * circumference;
+                setTimeout(() => {
+                    gauge.style.strokeDasharray = `${circumference - offset} ${circumference}`;
+                }, 500);
+            }
+
+            const ctx = document.getElementById('confidenceChart');
+            if (ctx) {
+                const rawData = JSON.parse(document.getElementById('clauses-data-payload').textContent);
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: rawData.map(c => c.Clause),
+                        datasets: [{
+                            data: rawData.map(c => c.Confidence * 100),
+                            borderColor: '#8B5CF6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#8B5CF6'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } },
+                            x: { grid: { display: false }, ticks: { display: false } }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

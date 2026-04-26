@@ -20,8 +20,11 @@ def generate_summary(text, info=None):
     overlap = 500
     chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size - overlap)]
     
-    # Priority keywords for identifying "Legal Impact" segments
-    priority_keywords = ["rent", "salary", "premium", "party", "effective date", "termination", "liability", "breach", "indemnity", "governing law"]
+    # Priority keywords for identifying "Legal Impact" segments (Targeting actual clauses, avoiding preamble)
+    priority_keywords = [
+        "rent", "deposit", "maintenance", "termination", "liability", 
+        "breach", "renewal", "increase", "notice", "eviction", "payment", "penalty"
+    ]
     
     scored_chunks = []
     for chunk in chunks:
@@ -60,7 +63,7 @@ def generate_summary(text, info=None):
     if info:
         for k, v in info.items():
             if v and v not in ["Not Detected", "Error"]:
-                metadata_list.append(f"<div style='margin-bottom: 0.5rem;'>&bull; <b>{k}</b>: <span style='color: #10B981;'>{v}</span></div>")
+                metadata_list.append(f"<div style='margin-bottom: 0.5rem;'>&bull; <b>{k}</b>: <span style='color: #8B5CF6;'>{v}</span></div>")
 
     # 3.2 Semantic Routing with "Zero-Split" Regex
     # FIXED: This regex avoids splitting at "Rs." or "No." abbreviations used in legal docs.
@@ -70,10 +73,18 @@ def generate_summary(text, info=None):
     for sentence in sentences:
         s = sentence.strip()
         if len(s) < 30: continue
+        
+        text_l = s.lower()
+        # Filter out purely boilerplate sentences
+        if "terms and conditions agreed" in text_l or "hereby agreed" in text_l or "above-described flat" in text_l:
+            continue
+            
+        # Optional: Light stutter/redundancy filter (collapse duplicates like 'increase of 10%... increase of ten%')
+        s = re.sub(r'(?i)(increase of \d+%.*?)increase of \w+%', r'\1', s)
+        
         if not s.endswith("."): s += "."
 
         # Intelligence Topic Routing
-        text_l = s.lower()
         if any(w in text_l for w in ["pay", "rent", "fee", "cost", "dollar", "month", "annual", "compensation", "rs", "₹", "$"]):
             financials.append(f"<div style='margin-bottom: 0.5rem;'>&bull; {s}</div>")
         else:
@@ -89,7 +100,7 @@ def generate_summary(text, info=None):
     if financials:
         # Sort financials so bullets containing amounts come first
         financials.sort(key=lambda x: any(c.isdigit() for c in x), reverse=True)
-        final_output.append("<h4 style='color: #10B981; margin: 1.5rem 0 0.8rem 0; text-transform: uppercase; font-size: 0.85rem;'>Financial Obligations</h4>")
+        final_output.append("<h4 style='color: #8B5CF6; margin: 1.5rem 0 0.8rem 0; text-transform: uppercase; font-size: 0.85rem;'>Financial Obligations</h4>")
         final_output.extend(financials[:12]) 
 
     if obligations:

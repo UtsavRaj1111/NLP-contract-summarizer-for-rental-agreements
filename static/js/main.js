@@ -1,33 +1,112 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. Global Document Loading (Unified ID Sync) ---
+    // --- 1. Global Document Loading & Core Logic ---
     const uploadForm = document.getElementById('upload-form-ui');
     const loader = document.getElementById('loader-overlay');
-
-    if (uploadForm && loader) {
-        uploadForm.addEventListener('submit', () => {
-            loader.style.cssText = 'display: flex !important;';
-        });
-    }
-
-    // --- 2. Functional Extraction Triggers (Hero & Nav) ---
     const fileInput = document.getElementById('file-input');
     const heroTrigger = document.getElementById('hero-upload-trigger');
     const navTrigger = document.getElementById('nav-upload-trigger');
+    const dropZone = document.getElementById('drop-zone');
 
+    // Show loader on form submission
+    if (uploadForm && loader) {
+        uploadForm.addEventListener('submit', () => {
+            loader.style.display = 'flex';
+        });
+    }
+
+    // Generic file dialog opener
     const openFileDialog = () => { if (fileInput) fileInput.click(); };
     if (heroTrigger) heroTrigger.addEventListener('click', openFileDialog);
     if (navTrigger) navTrigger.addEventListener('click', openFileDialog);
 
+    // Handle file selection
     if (fileInput) {
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
-                if (heroTrigger) heroTrigger.innerHTML = `<span style="font-size: 0.8rem; opacity: 0.8;">Analyzing...</span>`;
                 if (uploadForm) uploadForm.submit();
             }
         });
     }
 
-    // --- 3. Persistent Tab Navigation (Overview & Clauses) ---
+    // --- 2. Advanced Drag & Drop Interaction ---
+    if (dropZone) {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.add('drag-over'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.remove('drag-over'), false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0 && fileInput) {
+                fileInput.files = files;
+                if (uploadForm) uploadForm.submit();
+            }
+        }, false);
+    }
+
+    // --- 3. Premium UI Interactions (Scroll & Animations) ---
+    
+    // Navbar Scroll Effect
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    });
+
+    // Reveal Animations using Intersection Observer
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.feature-card').forEach(card => {
+        revealObserver.observe(card);
+    });
+
+    // --- 4. Micro-interactions & Visual Effects ---
+
+    // FIX: Typing Animation for Hero Subtitle (Preserving Spaces)
+    const subtitle = document.getElementById('hero-subtitle');
+    if (subtitle) {
+        const text = subtitle.textContent.trim(); // Use textContent for cleaner extraction
+        subtitle.textContent = '';
+        let i = 0;
+        const type = () => {
+            if (i < text.length) {
+                subtitle.textContent += text.charAt(i);
+                i++;
+                // Randomize slightly for natural feel
+                setTimeout(type, 10 + Math.random() * 20);
+            }
+        };
+        // Start typing after a short delay for hero entrance
+        setTimeout(type, 1000);
+    }
+
+    // --- 5. Result Dashboard Logic (Preserved from previous main.js) ---
     const sidebarLinks = document.querySelectorAll('.sidebar-link');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -41,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (targetTab === 'clauses') animateConfidenceBars();
-        if (targetTab === 'overview') renderConfidenceChart();
     };
 
     sidebarLinks.forEach(link => {
@@ -52,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 4. Analysis Confidence Bar Animation ---
     const animateConfidenceBars = () => {
         const bars = document.querySelectorAll('.conf-inner');
         bars.forEach(bar => {
@@ -61,68 +138,99 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 5. Global Gauge Animation (Overview Tab) ---
-    const gauge = document.querySelector('.gauge-bar');
-    if (gauge) {
-        const score = parseInt(gauge.getAttribute('data-quality-score')) || 0;
-        const offset = (score * 339.3) / 100;
-        gauge.style.strokeDasharray = `0 339.3`;
-        setTimeout(() => { gauge.style.strokeDasharray = `${offset} 339.3`; }, 300);
+    // --- AI ASSISTANT V2 LOGIC (Cache Busting) ---
+    const aiToggle = document.getElementById('ai-toggle-v2');
+    const aiWindow = document.getElementById('ai-window-v2');
+    const aiClose = document.getElementById('ai-close-v2');
+    const aiInput = document.getElementById('ai-input-v2');
+    const aiSend = document.getElementById('ai-send-v2');
+    const aiMessages = document.getElementById('ai-messages-v2');
+
+    if(aiToggle && aiWindow) {
+        aiToggle.addEventListener('click', () => {
+            aiWindow.classList.toggle('active');
+        });
     }
 
-    // --- 6. Interactive Confidence Analytics (Chart.js) ---
-    let confidenceChart = null;
+    if(aiClose && aiWindow) {
+        aiClose.addEventListener('click', () => {
+            aiWindow.classList.remove('active');
+        });
+    }
 
-    const renderConfidenceChart = () => {
-        const ctx = document.getElementById('confidenceChart');
-        const payload = document.getElementById('clauses-data-payload');
-        
-        if (!ctx || !payload) return;
+    function addAiMessage(text, isBot = false) {
+        if(!aiMessages) return;
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `ai-v2-msg ${isBot ? 'ai-v2-bot' : 'ai-v2-user'}`;
+        msgDiv.textContent = text;
+        aiMessages.appendChild(msgDiv);
+        aiMessages.scrollTop = aiMessages.scrollHeight;
+    }
+
+    async function handleAiChat(forcedMsg = null) {
+        const message = forcedMsg || aiInput.value.trim();
+        if(!message) return;
+
+        addAiMessage(message, false);
+        aiInput.value = '';
+
+        const typingId = 'typing-' + Date.now();
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'ai-v2-msg ai-v2-bot';
+        typingDiv.id = typingId;
+        typingDiv.textContent = 'Analyzing...';
+        aiMessages.appendChild(typingDiv);
+        aiMessages.scrollTop = aiMessages.scrollHeight;
 
         try {
-            const clauses = JSON.parse(payload.innerText);
-            const labels = clauses.map(c => c.Clause);
-            const data = clauses.map(c => Math.round(c.Confidence * 100));
+            const docText = document.getElementById('doc-text-payload')?.textContent || "";
+            const summaryText = document.getElementById('summary-text-payload')?.textContent || "";
 
-            if (confidenceChart) confidenceChart.destroy();
-
-            confidenceChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'AI Confidence %',
-                        data: data,
-                        backgroundColor: 'rgba(16, 185, 129, 0.7)',
-                        borderColor: '#10B981',
-                        borderWidth: 1,
-                        borderRadius: 5
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { 
-                            beginAtZero: true, 
-                            max: 100,
-                            grid: { display: false },
-                            ticks: { font: { size: 10 } }
-                        },
-                        x: { 
-                            grid: { display: false },
-                            ticks: { font: { size: 10 } }
-                        }
-                    }
-                }
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    question: message,
+                    document_text: docText,
+                    summary_text: summaryText
+                })
             });
-        } catch (e) {
-            console.error("Chart Rendering Error:", e);
+            const data = await response.json();
+            
+            const tipEl = document.getElementById(typingId);
+            if(tipEl) tipEl.remove();
+            addAiMessage(data.answer || data.response || "No response found.", true);
+        } catch (error) {
+            const tipEl = document.getElementById(typingId);
+            if(tipEl) tipEl.remove();
+            addAiMessage("Connection error. Please try again.", true);
         }
-    };
+    }
 
-    // Initial load animations
-    if (document.getElementById('clauses-tab')?.classList.contains('active')) animateConfidenceBars();
-    if (document.getElementById('overview-tab')?.classList.contains('active')) renderConfidenceChart();
+    document.querySelectorAll('.ai-v2-suggest-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            handleAiChat(btn.getAttribute('data-q'));
+        });
+    });
+
+    if(aiSend) aiSend.addEventListener('click', () => handleAiChat());
+    if(aiInput) aiInput.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') handleAiChat();
+    });
+
+    // Handle suggested questions
+    document.querySelectorAll('.suggest-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            handleChat(btn.getAttribute('data-q'));
+        });
+    });
+
+    if(chatSend) {
+        chatSend.addEventListener('click', () => handleChat());
+    }
+    if(chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') handleChat();
+        });
+    }
 });

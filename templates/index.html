@@ -1,66 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClauseCraft AI | Universal Legal Intelligence</title>
+    <title>ClauseCraft AI | Legal Expert Intelligence</title>
     <!-- Dynamic Cache Busting -->
     <link rel="stylesheet" href="/static/css/styles.css?v={{ _v }}">
-    <link rel="shortcut icon" href="https://img.icons8.com/ios-filled/50/10B981/contract.png" type="image/x-icon">
-    
-    <style>
-        :root {
-            --primary: #10B981; --primary-dark: #059669; --primary-light: #D1FAE5;
-            --dark: #0F172A; --secondary: #64748B; --light: #F8FAFC; --white: #FFFFFF;
-            --radius: 1rem; --radius-lg: 1.5rem;
-        }
-
-        body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--dark); margin: 0; padding: 0; overflow-x: hidden; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 5%; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; height: 80px; box-sizing: border-box; }
-        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.4rem; color: var(--dark); text-decoration: none; font-family: 'Outfit', sans-serif; }
-        .logo span { color: var(--primary); }
-
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; color: white; text-align: center; }
-        .loader { width: 48px; height: 48px; border: 4px solid var(--primary-light); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1.5rem; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .hero { padding: 8rem 5% 6rem; text-align: center; max-width: 900px; margin: 0 auto; box-sizing: border-box; }
-        .badge { display: inline-block; background: var(--primary-light); color: var(--primary-dark); padding: 0.5rem 1.25rem; border-radius: 999px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
-        .hero h1 { font-size: 3.5rem; font-family: 'Outfit', sans-serif; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; }
-        .hero h1 span { color: var(--primary); display: block; }
-        
-        .cta-container { background: var(--white); padding: 2rem; border-radius: var(--radius-lg); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); border: 1px solid rgba(0,0,0,0.05); display: inline-block; margin-top: 2rem; }
-        .input-group { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center; }
-        
-        select { padding: 0.8rem 1.2rem; border-radius: 0.75rem; border: 1px solid #E2E8F0; font-family: inherit; color: var(--dark); cursor: pointer; background: white; outline: none; }
-        select:focus { border-color: var(--primary); }
-        
-        .btn-primary { background: var(--primary); color: white; padding: 1rem 2.5rem; border-radius: var(--radius); font-weight: 700; border: none; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; font-size: 1rem; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2); }
-    </style>
+    <link rel="shortcut icon" href="https://img.icons8.com/ios-filled/50/8B5CF6/contract.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
 
-    <nav>
+<body>
+    <!-- Premium Background Effects -->
+    <div class="bg-mesh"></div>
+    <div class="bg-circles">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+    </div>
+
+    <nav id="main-nav">
         <a href="/" class="logo">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+            </svg>
             ClauseCraft <span>AI</span>
         </a>
-        <button class="btn-primary" id="nav-upload-trigger" style="padding: 0.6rem 1.25rem; font-size: 0.85rem;">Extract Intelligence</button>
+        <div class="nav-links">
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#how-it-works" class="nav-link">How it Works</a>
+            <button class="btn btn-primary" id="nav-upload-trigger">Analyze Document</button>
+        </div>
     </nav>
 
+    <!-- Loader Overlay -->
     <div class="overlay" id="loader-overlay">
-        <div class="loader"></div>
-        <h2 style="font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 1rem;">Analyzing Document</h2>
-        <p style="opacity: 0.8;">Our AI is currently mapping clauses and identifying risks. This takes just a moment.</p>
+        <div class="loader-ring"></div>
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;">Analyzing Intelligence</h2>
+        <p style="opacity: 0.8; font-size: 1.1rem;">Our AI is mapping legal clauses and identifying potential risks...</p>
     </div>
 
     <section class="hero">
-        <span class="badge">Universal Legal Assistant</span>
-        <h1>ClauseCraft AI <span>Legalese Expert</span></h1>
-        <p style="font-size: 1.25rem; color: var(--secondary); line-height: 1.6; margin-bottom: 1rem;">Instantly identify risks, extract key terms, and summarize complex agreements using Smart AI Analysis.</p>
-        
-        <div class="cta-container">
+        <div class="hero-content">
+            <span class="badge"><i class="fas fa-sparkles"></i> Next-Gen Legal Analysis</span>
+            <h1>Intelligence for every <span>Legal Agreement.</span></h1>
+            <p id="hero-subtitle">Instantly identify risks, extract key terms, and summarize complex legal documents using state-of-the-art NLP models.</p>
+
             <form action="/" method="POST" enctype="multipart/form-data" id="upload-form-ui">
                 <input type="file" name="file" id="file-input" style="display: none;">
                 <div class="input-group">
@@ -69,20 +57,153 @@
                         <option value="Hindi">Translate to Hindi</option>
                         <option value="Spanish">Translate to Spanish</option>
                         <option value="French">Translate to French</option>
+                        <option value="German">Translate to German</option>
                     </select>
-                    <button type="button" class="btn-primary" id="hero-upload-trigger">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <button type="button" class="btn btn-primary btn-pulse" id="hero-upload-trigger">
+                        <i class="fas fa-file-upload"></i>
                         Upload Agreement
                     </button>
                 </div>
             </form>
+            
+            <div class="hero-trust-badges">
+                <span><i class="fas fa-shield-halved"></i> Private & Secure</span>
+                <span><i class="fas fa-globe"></i> Multi-lingual Support</span>
+                <span><i class="fas fa-file-contract"></i> PDF & Docx Support</span>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="mockup-container">
+                <div class="mockup-content">
+                    <div class="mockup-header">
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot green"></div>
+                        <span class="mockup-title">Analysis Engine v4.2</span>
+                    </div>
+                    
+                    <div class="mockup-body">
+                        <div class="mockup-card-primary">
+                            <div class="mockup-badge">High Confidence</div>
+                            <h3>Rental Agreement</h3>
+                            <div class="mockup-mini-row">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Security Deposit: Detected</span>
+                            </div>
+                            <div class="mockup-mini-row">
+                                <i class="fas fa-exclamation-triangle" style="color: #F59E0B;"></i>
+                                <span>Subletting: Restrictive Clause</span>
+                            </div>
+                        </div>
+
+                        <div class="mockup-stats">
+                            <div class="mockup-stat-item">
+                                <div class="stat-label">AI Score</div>
+                                <div class="stat-value">92%</div>
+                            </div>
+                            <div class="mockup-stat-item">
+                                <div class="stat-label">Risks</div>
+                                <div class="stat-value" style="color: #EF4444;">03</div>
+                            </div>
+                        </div>
+
+                        <div class="mockup-chat-bubble">
+                            <div class="bot-icon-small"><i class="fas fa-robot"></i></div>
+                            <div class="bubble-text">Found 12 critical clauses...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <footer style="padding: 4rem 5%; background: var(--dark); color: white; text-align: center;">
-        <p style="font-size: 0.9rem; opacity: 0.8;">© 2026 ClauseCraft AI. All rights reserved. Built with Smart AI Analysis.</p>
+    <section id="features" class="features">
+        <div class="section-header">
+            <span class="badge">Core Capabilities</span>
+            <h2>Supercharge Your Legal Workflow</h2>
+            <p style="color: var(--dark-lighter); opacity: 0.7;">ClauseCraft AI uses deep learning to understand legal nuances that traditional tools miss.</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h3 style="font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; margin-bottom: 1rem;">Instant Summarization</h3>
+                <p style="color: var(--dark-lighter); opacity: 0.7; font-size: 0.95rem;">Transform massive 50-page contracts into concise, actionable summaries in seconds.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3 style="font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; margin-bottom: 1rem;">Risk Detection</h3>
+                <p style="color: var(--dark-lighter); opacity: 0.7; font-size: 0.95rem;">Automatically flag restrictive clauses and potential liabilities before you sign.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-language"></i>
+                <h3 style="font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; margin-bottom: 1rem;">Cross-Language Analysis</h3>
+                <p style="color: var(--dark-lighter); opacity: 0.7; font-size: 0.95rem;">Process agreements in any language and get insights in your native tongue.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" style="padding: 6rem 5%; background: #030712; border-top: 1px solid rgba(255,255,255,0.05);">
+        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;">
+            <div>
+                <span class="badge">Simple Workflow</span>
+                <h2 style="font-size: 3rem; font-family: var(--font-heading); font-weight: 800; margin-bottom: 2rem;">Upload. Analyze. <br>Get Insights.</h2>
+                
+                <div class="wf-v2-list">
+                    <div class="wf-v2-step">
+                        <div class="wf-v2-num">1</div>
+                        <div class="wf-v2-content">
+                            <h4>Secure Upload</h4>
+                            <p>Drop your PDF or Docx. We use military-grade encryption to process your files.</p>
+                        </div>
+                    </div>
+                    <div class="wf-v2-step">
+                        <div class="wf-v2-num">2</div>
+                        <div class="wf-v2-content">
+                            <h4>AI Extraction</h4>
+                            <p>Our NLP engine identifies entities, dates, and complex legal obligations.</p>
+                        </div>
+                    </div>
+                    <div class="wf-v2-step">
+                        <div class="wf-v2-num">3</div>
+                        <div class="wf-v2-content">
+                            <h4>Interactive Dashboard</h4>
+                            <p>Chat with your document and export detailed PDF analysis reports.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upload-card" id="drop-zone">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                </div>
+                <h3 style="font-weight: 700; margin-bottom: 1rem;">Drop your agreement here</h3>
+                <p style="opacity: 0.6; margin-bottom: 2rem;">Support PDF, DOCX, and JPG (Max 16MB)</p>
+                <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">Browse Files</button>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 6rem 8% 4rem; background: var(--dark); color: var(--text-primary); border-top: 1px solid rgba(255,255,255,0.05);">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4rem; margin-bottom: 2rem;">
+            <a href="/" class="logo" style="color: white;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                </svg>
+                ClauseCraft <span style="background: var(--grad-primary); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800;">AI</span>
+            </a>
+            <div style="display: flex; gap: 2rem;">
+                <a href="#" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Privacy Policy</a>
+                <a href="#" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Terms of Service</a>
+            </div>
+        </div>
+        <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; opacity: 0.6;">© 2026 ClauseCraft AI. Engineered for Legal Excellence.</p>
     </footer>
 
     <script src="/static/js/main.js?v={{ _v }}"></script>
 </body>
+
 </html>

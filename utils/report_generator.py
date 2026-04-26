@@ -26,7 +26,7 @@ def generate_report(summary, clauses, info, risks, quality_score):
         parent=styles['Title'],
         fontName='Helvetica-Bold',
         fontSize=24,
-        textColor=colors.HexColor("#10B981"),
+        textColor=colors.HexColor("#8B5CF6"),
         spaceAfter=30
     )
     
@@ -60,7 +60,22 @@ def generate_report(summary, clauses, info, risks, quality_score):
 
     # 2. Executive Summary Block
     elements.append(Paragraph("I. EXECUTIVE SEMANTIC SUMMARY", heading_style))
-    elements.append(Paragraph(summary, styles['BodyText']))
+    
+    import re
+    clean_summary = summary.replace("&bull;", "•")
+    clean_summary = re.sub(r"<h4[^>]*>", "<b>", clean_summary)
+    clean_summary = re.sub(r"</h4>", "</b>", clean_summary)
+    clean_summary = re.sub(r"<div[^>]*>", "\n", clean_summary)
+    clean_summary = re.sub(r"</div>", "", clean_summary)
+    clean_summary = re.sub(r"<span[^>]*>", "", clean_summary)
+    clean_summary = re.sub(r"</span>", "", clean_summary)
+    
+    for line in clean_summary.split("\n"):
+        line = line.strip()
+        if line:
+            elements.append(Paragraph(line, styles['BodyText']))
+            elements.append(Spacer(1, 6))
+
     elements.append(Spacer(1, 20))
 
     # 3. Agreement Information (Key Metadata)

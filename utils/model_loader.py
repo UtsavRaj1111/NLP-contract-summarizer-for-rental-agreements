@@ -15,6 +15,7 @@ class ModelLoader:
     _instance = None
     _sentence_transformer = None
     _summarizer = None
+    _qa_pipeline = None
     _translator_cache = {}
 
     def __new__(cls):
@@ -49,6 +50,22 @@ class ModelLoader:
                 logger.error(f"Failed to load Summarizer: {e}")
                 raise RuntimeError("AI Summarization Engine failed to initialize.")
         return self._summarizer
+
+    def get_qa_pipeline(self):
+        """Loads question answering pipeline once and caches it."""
+        if self._qa_pipeline is None:
+            try:
+                logger.info("Initializing QA Pipeline (deepset/minilm-uncased-squad2)...")
+                # Fast, lightweight model for CPU QA tasks
+                self._qa_pipeline = pipeline(
+                    "question-answering",
+                    model="deepset/minilm-uncased-squad2",
+                    device=-1
+                )
+            except Exception as e:
+                logger.error(f"Failed to load QA Pipeline: {e}")
+                raise RuntimeError("AI Chatbot Engine failed to initialize.")
+        return self._qa_pipeline
 
     def get_translator(self, model_name):
         """Unified translation management."""
